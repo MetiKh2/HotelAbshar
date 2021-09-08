@@ -1,0 +1,66 @@
+﻿@model HotelAbshar.Application.DTOs.UserViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "ورود";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p class="texto">ورود</p>
+<form id="formLogin" asp-action="Login" method="post">
+    <div class="Registro">
+
+
+
+        <span class="fontawesome-envelope-alt"></span><input type="text" asp-for="UserNameOrEmail" id="userNameOrEmail" placeholder="نام کاربری یا ایمیل" autocomplete="off">
+
+        <span class="fontawesome-lock"></span><input type="password" name="password" id="password" asp-for="Password" placeholder="رمز عبور" autocomplete="off">
+
+        @if (ViewBag.UserNull == true)
+        {
+            <div class="alert alert-danger">کاربری با این مشخصات در سایت وجود ندارد</div>
+        }
+        @if (ViewBag.NoActive == true)
+        {
+            <div class="alert alert-">حساب کاربری تان فعال نشده است</div>
+        }
+        @if (ViewBag.IsSeccess == true)
+        {
+            <p class="alert alert-success">با موفقیت وارد شدید (به صفحه اصلی هدایت می شوید)</p>
+            <script>
+                setTimeout(function () {
+                    window.location.href = "/";
+                }, 2500);
+            </script>
+
+
+        } 
+        @if (ViewBag.NoIsValid == true)
+        {
+            <div class="alert alert-danger">اطلاعات به درستی وارد نشده اند</div>
+        }
+
+
+        <input type="submit" value="رورد به سایت" title="رورد به سایت">
+
+    </div>
+</form>
+
+<script>
+    const formLogin = document.querySelector('#formLogin');
+    formLogin.addEventListener('submit', event => {
+
+        let password = document.getElementById('password').value;
+        let userNameOrEmail = document.getElementById('userNameOrEmail').value;
+
+        if (password == "" || userNameOrEmail == "") {
+            alert("لطفا تمامی موارد را وارد کنید");
+            event.preventDefault();
+        }
+
+
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

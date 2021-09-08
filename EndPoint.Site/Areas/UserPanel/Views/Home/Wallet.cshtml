@@ -1,0 +1,108 @@
+﻿@model List<HotelAbshar.Domain.Entities.User.Wallet>
+@{
+    ViewData["Title"] = "کیف پول";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using HotelAbshar.Common.Convertors
+<style>
+    /*Using CSS for table*/
+    .demotbl {
+        border: 0px solid #69899F;
+        margin-top: 10px;
+    }
+
+        .demotbl th {
+           
+            padding: 15px;
+            color: #fff;
+            text-shadow: 1px 1px 1px #568F23;
+            border-bottom: 3px solid #9ED929;
+            background-color: #9DD929;
+            background: -webkit-gradient( linear, left bottom, left top, color-stop(0.02, rgb(123,192,67)), color-stop(0.51, rgb(139,198,66)), color-stop(0.87, rgb(158,217,41)) );
+            background: -moz-linear-gradient( center bottom, rgb(123,192,67) 3%, rgb(139,198,66) 52%, rgb(158,217,41) 88% );
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius: 5px 5px 0px 0px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .demotbl td {
+            width: 100px;
+            padding: 10px;
+            text-align: center;
+            vertical-align: top;
+            background-color: #DEF3CA;
+            border: 1px solid #BED3AB;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            color: #666;
+            text-shadow: 1px 1px 1px #fff;
+        }
+</style>
+
+<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2-5">
+                <partial name="_SideBar" />
+            </div>
+            <div class="col-md-9-5">
+
+                <div class="row row-col-gap" data-gutter="20">
+                    <div class="col-md-4">
+
+                        <div class="_mt-40 _mb-100">
+                            @if (ViewBag.successPay == "true")
+                            {
+                                <div class="alert alert-success">
+                                    پرداخت موفقیت آمیز بود
+                                </div>
+                            }   @if (ViewBag.successPay == "false")
+                            {
+                                <div class="alert alert-danger">
+                                    پرداخت موفقیت آمیز نبود
+                                </div>
+                            }
+                            <form asp-action="ChargeWallet" method="post">
+                                <div class="form-group">
+                                    <label style="margin-bottom:7px">مبلغ افزایش شارژ را وارد کنید(ریال)</label>
+                                    <input name="amount" class="form-control theme-footer-subscribe-form-control" type="number">
+                                </div>
+                              
+                                <input type="submit" value="پرداخت" class="btn btn-primary-invert btn-shadow text-upcase theme-footer-subscribe-btn" /><i class="fa fa-credit-card"></i>
+                            </form>
+                            <table class="demotbl">
+                                <tr>
+                                    <th>مبلغ</th>
+                                    <th>نوع تراکنش</th>
+                                    <th> شرح</th>
+                                    <th> تاریخ</th>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                            <tr>
+                                <td>@item.Amount.ToString("n0")</td>
+                                @if (item.WalletTypeID == 1)
+                                {
+                                    <td><p class="text text-success">واریز </p></td>
+                                }
+                                else
+                                {
+                                    <td><p class="text text-danger">پرداخت </p></td>
+                                }
+                                <td>@item.Description</td>
+                                <td>@item.DateTime.ToShamsi()</td>
+                            </tr>
+                                }
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

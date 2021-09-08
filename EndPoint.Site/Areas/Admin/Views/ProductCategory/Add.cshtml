@@ -1,0 +1,64 @@
+﻿@model HotelAbshar.Domain.Entities.Product.Category
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section id="basic-input-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">اضافه کردن نقش</h4>
+                    </div>
+                </div>
+                <form id="formAddCategory" asp-action="Add" method="post">
+                    <input type="hidden" asp-for="ParentID"/>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="text" id="categoryName" class="form-control" asp-for="CategoryName" placeholder="نام گروه" aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>  @if (ViewBag.NoIsValid == true)
+                            {
+
+                                <div class="alert alert-danger">مقادیر را وارد کنید</div>
+                            }
+                            <br>
+                            <input type="submit" value="اضافه کن" class="btn btn-success" />
+                        </div>
+                    </div>
+            
+                </form>
+            </div>
+        </div>
+       
+    </div>
+
+</section>
+<script>
+    const formAddCategory = document.querySelector('#formAddCategory');
+    formAddCategory.addEventListener('submit', event => {
+        let categoryName = document.getElementById('categoryName').value;
+
+
+
+        if (categoryName == "") {
+            alert("لطفا تمامی موارد را وارد کنید");
+            event.preventDefault();
+        }
+
+        if (categoryName.length > 51) {
+            alert("حداکثر 50 حرف");
+            event.preventDefault();
+        }
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

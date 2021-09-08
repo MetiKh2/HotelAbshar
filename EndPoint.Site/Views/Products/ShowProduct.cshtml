@@ -1,0 +1,277 @@
+﻿@model HotelAbshar.Domain.Entities.Product.Product
+@{
+    ViewData["Title"] = "ShowProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<HotelAbshar.Domain.Entities.Product.ProductImage> Images = ViewBag.Images;
+    List<HotelAbshar.Domain.Entities.Product.ProductFeature> Features = ViewBag.Features;
+}
+
+
+<div class="theme-hero-area">
+    <div class="theme-hero-area-bg-wrap">
+        <div class="theme-hero-area-bg-pattern theme-hero-area-bg-pattern-ultra-light" style="background-image:url(../../wwwroot/Hotels/SliderHotelImages/6c537c21a0fb4bb18e1313987a761947.jpg);"></div>
+        <div class="theme-hero-area-grad-mask"></div>
+    </div>
+    <div class="theme-hero-area-body">
+        <div class="container">
+            <div class="theme-item-page-header _pb-50 theme-item-page-header-white">
+                <div class="theme-item-page-header-body">
+                    <ul class="theme-item-page-header-stars">
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                    <h2 class="theme-item-page-header-title">@Model.Name </h2>
+                    <div class="theme-item-page-header-price">
+                        <div class="theme-item-page-header-price-body">
+                            <p class="_fs-sm"> قیمت   </p>
+                            <p class="_fs-xl">@Model.Price.ToString("n0")</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="theme-page-section theme-page-section-gray">
+    <div class="container">
+        <div class="row row-col-static" id="sticky-parent">
+            <div class="col-md-9 ">
+
+                <div class="w3-content w3-section" style="max-width:500px">
+                    @foreach (var item in Images)
+                    {
+
+
+
+                        <img class="mySlides" src="~/Products/ShowSiteImage/@item.Src" style="width:100%">
+
+
+                    }
+                </div>
+                <div class="theme-item-page-tabs _mb-30">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs nav-default nav-no-br nav-sqr nav-mob-inline" role="tablist">
+                            <li class="active" role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-1" role="tab" data-toggle="tab" href="#HotelPageTabs-1">درباره کالا</a>
+                            </li>
+                            <li role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-3" role="tab" data-toggle="tab" href="#HotelPageTabs-2">نظرات کاربران</a>
+                            </li>
+                            <li role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-4" role="tab" data-toggle="tab" href="#HotelPageTabs-3">ویژگی ها</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content _p-30 _bg-w">
+                            <div class="tab-pane active" id="HotelPageTabs-1" role="tab-panel">
+                                <div class="theme-item-page-desc">
+                                    <p style="text-align:right">@Html.Raw(Model.Description)</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="HotelPageTabs-2" role="tab-panel">
+                                <div class="theme-reviews">
+                                    <div class="theme-reviews-score theme-reviews-score-hor">
+                                        @*<div class="row">
+                                            <div class="col-md-3 ">
+                                                <div class="theme-reviews-score-header">
+                                                    <p class="theme-reviews-score-subtitle">میانگین رضایت‌مندی</p>
+                                                </div>
+                                                <div class="theme-reviews-score-total">
+                                                    <p>7.1</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 ">
+                                                <div class="theme-reviews-score-list">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">تمیزی و پاکیزگی</p>
+                                                                    <p class="theme-reviews-score-item-num">6.5</p>
+                                                                </div>
+                                                                <div class="theme-reviews-score-item-bar">
+                                                                    <div style="width:65%;"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">خدمات و سرویس دهی</p>
+                                                                    <p class="theme-reviews-score-item-num">6.2</p>
+                                                                </div>
+                                                                <div class="theme-reviews-score-item-bar">
+                                                                    <div style="width:62%;"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">موقعیت مکانی</p>
+                                                                    <p class="theme-reviews-score-item-num">7.6</p>
+                                                                </div>
+                                                                <div class="theme-reviews-score-item-bar">
+                                                                    <div style="width:76%;"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">برخورد کارکنان</p>
+                                                                    <p class="theme-reviews-score-item-num">5.3</p>
+                                                                </div>
+                                                                <div class="theme-reviews-score-item-bar">
+                                                                    <div style="width:53%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                    <div id="listComment" class="theme-reviews-list">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="HotelPageTabs-3" role="tab-panel">
+                                <div class="theme-item-page-facilities">
+                                    <div class="row">
+                                        @for (int i = 0; i < Features.Count + 1; i++)
+                                        {
+                                            <div class="col-md-3 ">
+
+
+                                                @foreach (var item in Features.Skip(i * 3).Take(3))
+                                                {
+                                                    <div class="theme-item-page-facilities-item">
+                                                        <i class="fa fa-empire theme-item-page-facilities-item-icon"></i>
+                                                        <h5 class="theme-item-page-facilities-item-title">@item.DisPlayName : @item.Value</h5>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="color:blue;text-shadow:2px 2px 5px red">نظر دهید</h2>
+                <form id="formAddProductComment"  asp-controller="Products" asp-action="AddComment" data-ajax="true"
+                      data-ajax-method="post"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#listComment"
+                      data-ajax-success="Success">
+                    <input type="hidden" value="@Model.ProductID" name="productId" />
+                    <textarea id="TextComment" name="text" rows="10" cols="75" placeholder="متن نظر ..."></textarea>
+
+                    <input type="submit" value="ثبت نظر" class="btn btn-success" />
+                </form>
+
+            </div>
+
+
+            <div class="col-md-3 ">
+                <div class="sticky-col" style="">
+                    <div class="theme-sidebar-section _mb-10 _mob-h">
+                        <h5 class="theme-sidebar-section-title">جزییات کالا</h5>
+                        <ul class="theme-sidebar-section-summary-list">
+                            <li>برند : <span>@Model.Brand</span></li>
+                            <li>موجودی : <span>@Model.Invertory</span></li>
+                            <li>دسته بندی : <span>@ViewBag.FullCategory</span></li>
+                            <li class="btn btn-warning">
+                                <a href="/Order/AddToCart/@Model.ProductID" class="btn btn-warning"><p class="text text-success">افزودن به سبد خرید</p></a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const formAddProductComment = document.querySelector('#formAddProductComment');
+    formAddProductComment.addEventListener('submit', event => {
+
+        let TextComment = document.getElementById('TextComment').value;
+
+
+        if (TextComment == "") {
+            alert("متن نظر را وارد کنید");
+            event.preventDefault();
+        }
+
+
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>
+
+
+<script>
+
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) { myIndex = 1 }
+        x[myIndex - 1].style.display = "block";
+        setTimeout(carousel, 2000); // Change image every 2 seconds
+    }
+
+</script>
+
+@section Scripts{
+    <script src="~/ajax/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function Success() {
+
+
+
+
+            $("#TextComment").val("");
+          
+        }
+
+        $(function () {
+            $("#listComment").load("/Products/ShowComments/" +@Model.ProductID);
+
+        });
+
+        function pageComment(pageid) {
+            $("#listComment").load("/Products/ShowComments/" + @Model.ProductID+"?pageId=" + pageid);
+        }
+
+
+    </script>
+}

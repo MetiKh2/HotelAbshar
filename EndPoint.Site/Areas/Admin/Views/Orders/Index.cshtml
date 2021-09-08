@@ -1,0 +1,129 @@
+﻿@model Tuple<List<HotelAbshar.Domain.Entities.Order_Cart.Order>, int>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int? orderId = ViewBag.orderId;
+    int? userId = ViewBag.userId;
+    int pageId = ViewBag.pageId;
+}
+@using HotelAbshar.Common.Convertors
+@using HotelAbshar.Domain.Entities.Order_Cart
+
+<div class="card-header">
+    <h4 class="card-title">جستجو</h4>
+</div>
+<div class="card-block pb-0">
+    <form asp-action="Index">
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <select name="state" asp-items="@ViewBag.States as SelectList"></select>
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="number" class="form-control form-control-lg input-lg" id="filterFullName" name="orderId" value="@orderId" placeholder="کد سفارش   ">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="number" class="form-control form-control-lg input-lg" id="filterEmail" name="userId" value="@userId" placeholder="کد کاربر">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="submit" style="background-color:dodgerblue" class="form-control form-control-lg input-lg" value="بگرد">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<section id="hoverable-rows">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-warning">
+                        <h4 class="card-title">سفارشات</h4>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>شماره سفارش</th>
+                                    <th>تاریخ</th>
+                                    <th>قیمت کل</th>
+                                    <th>وضعیت</th>
+
+                                    <th> دستورات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>@item.OrderID</td>
+                                        <td>@item.CreateDate.ToShamsi()</td>
+                                        <td>@item.SumAmount.ToString("n0")</td>
+
+                                        <td>
+                                            @if (item.OrderState == OrderState.Canceled)
+                                            {
+                                                <p class="text text-danger theme-account-history-date">لغو شده</p>
+
+                                            } @if (item.OrderState == OrderState.Delivered)
+                                            {
+                                                <p class="text text-success theme-account-history-date">ارسال شده</p>
+
+                                            } @if (item.OrderState == OrderState.NotPayment)
+                                            {
+                                                <p class="text text-warning theme-account-history-date">پرداخت نشده</p>
+
+                                            } @if (item.OrderState == OrderState.Processing)
+                                            {
+                                                <p class="text text-warning theme-account-history-date">در حال پردازش</p>
+
+                                            }
+                                        </td>
+
+                                        <td colspan="3">
+                                            <a class="btn btn-warning" href="/Admin/Orders/Details/@item.OrderID">جزییات کالا ها</a>
+                                            <a class="btn btn-danger" onclick="DeleteUgtser(@item.UserID)">حذف</a>
+                                            <a class="btn btn-primary" href="/Admin/Useggrs/UserHotel/@item.UserID">هتل</a>
+                                            <a class="btn btn-cyan" href="/Admin/Users/addUsgerHotel/@item.UserID">افزودن هتل</a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="Page navigation mb-3">
+                <ul class="pagination justify-content-center">
+                    @*<li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>*@
+                    @for (int i = 1; i <= Model.Item2 + 1; i++)
+                    {
+                        <li class="page-item @((i==pageId?" Active":""))"><a class="page-link" href="/Admin/Orders/Index?state=@ViewBag.state&orderId=@orderId&userId=@userId&pageId=@i">@i</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+

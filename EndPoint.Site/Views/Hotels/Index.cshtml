@@ -1,0 +1,600 @@
+﻿@model Tuple<List<HotelAbshar.Domain.Entities.Hotels.Hotel>, int>
+@inject HotelAbshar.Application.Interfaces.IHotelService _hotelService
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<HotelAbshar.Domain.Entities.Hotels.Feature> features = ViewBag.features;
+    List<int> filterStarCount = ViewBag.filterStarCount;
+    int pageId = ViewBag.pageId;
+    string order = ViewBag.order;
+}
+
+
+<div class="theme-page-section theme-page-section-gray">
+    <div class="container">
+        <div class="row row-col-static" id="sticky-parent" style="position: relative;">
+            <form asp-action="Index">
+                <div class="col-md-3">
+                    <div class="sticky-col _mob-h hidden-xs" style="">
+                        <div class="theme-search-results-sidebar">
+                            <div class="theme-search-results-sidebar-map-view">
+                                <a class="theme-search-results-sidebar-map-view-link" href="#"></a>
+                                <div class="theme-search-results-sidebar-map-view-body">
+                                    <i class="fa fa-map-marker theme-search-results-sidebar-map-view-icon"></i>
+                                    <p class="theme-search-results-sidebar-map-view-sign">نمایش بر روی نقشه</p>
+                                </div>
+                                <div class="theme-search-results-sidebar-map-view-mask"></div>
+                            </div>
+                            <div class="theme-search-results-sidebar-sections">
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">جستجو هتل</h5>
+                                    <div class="theme-search-results-sidebar-section-search">
+                                        <input name="filterName" id="filterName" value="@ViewBag.filterName" class="theme-search-results-sidebar-section-search-input" type="text" placeholder="مثال : هتل الماس">
+
+                                        <input type="submit" value="بگرد" class="fa fa-search theme-search-results-sidebar-section-search-btn" />
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">بر اساس ستاره</h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" @((filterStarCount.Any(p => p == 5) ? "checked" : "")) id="filterStarCount5" name="filterStarCount" value="5" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۵ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">400</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" @((filterStarCount.Any(p => p == 4) ? "checked" : "")) id="filterStarCount4" name="filterStarCount" value="4" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title"> ۴ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">233</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" name="filterStarCount" @((filterStarCount.Any(p => p == 3) ? "checked" : "")) id="filterStarCount3" value="3" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۳ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">197</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" name="filterStarCount" @((filterStarCount.Any(p => p == 2) ? "checked" : "")) id="filterStarCount2" value="2" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۲ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">285</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" name="filterStarCount" type="checkbox" @((filterStarCount.Any(p => p == 1) ? "checked" : "")) id="filterStarCount1" value="1" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۱ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">307</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">
+                                        میزان محبوبیت
+                                    </h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">فوق العاده (9 تا 10)</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">428</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">عالی (7 تا 8)</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">221</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">قابل قبول (کمتر از 6)</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">367</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">براساس قیمت</h5>
+                                    <div class="theme-search-results-sidebar-section-price">
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input name="filterPrice"  value="before100000" @((ViewBag.filterPrice == "before100000") ? "checked id="+"filterPrice" : "") class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    تا۱,۰۰۰,۰۰۰ تومان
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck"  name="filterPrice" value="past100000Before250000" @((ViewBag.filterPrice == "past100000Before250000") ? "checked id="+"filterPrice" : "") type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۱,۰۰۰,۰۰۰ ریال تا ۲,۵۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" name="filterPrice"   value="past250000Before500000" @((ViewBag.filterPrice == "past250000Before500000") ? "checked id="+"filterPrice" : "") type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۲,۵۰۰,۰۰۰ ریال تا ۵,۰۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" name="filterPrice" value="past500000Before750000" @((ViewBag.filterPrice == "past500000Before750000") ? "checked id="+"filterPrice" : "") type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۵,۰۰۰,۰۰۰ ریال تا ۷,۵۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input @((ViewBag.filterPrice == "past750000") ? "checked id="+"filterPrice" : "")  class="icheck" name="filterPrice" value="past750000" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۷,۵۰۰,۰۰۰ ریال به بالا
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">بر اساس نوع اقامتگاه</h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">هتل</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">230</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">
+                                                        هتل آپارتمان
+                                                    </span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">210</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">مجتمع اقامتی</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">226</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="theme-search-results-sidebar-section">
+                                                                <h5 class="theme-search-results-sidebar-section-title">بر اساس امکانات</h5>
+                                                                <div class="theme-search-results-sidebar-section-checkbox-list">
+                                                                    <div class="theme-search-results-sidebar-section-checkbox-list-items">
+
+                                                                     @foreach (var item in features)
+                                    {
+                                                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                                            <label class="icheck-label">
+                                                                                <div class="icheck" style="position: relative;"><input name="filterFeatures" value="@item.FeatureID" class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                                                <span class="icheck-title">@item.FeatureTitle</span>
+                                                                            </label>
+                                                                        </div>
+                                    }
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="theme-search-results-sort _mob-h clearfix hidden-xs">
+                        <h5 class="theme-search-results-sort-title">مرتب سازی بر اساس :</h5>
+                        <ul class="theme-search-results-sort-list">
+                            <li>
+                                <a onclick="ChangeHotelsPage(@pageId,'maxPrice')">
+                                    بالاتwرین امتیاز
+                                </a>
+                            </li>
+                            <li>
+                                <a onclick="ChangeHotelsPage(@pageId,'maxPrice')">
+                                    بیشترین قیمت
+                                </a>
+                            </li>
+                            <li>
+                                <a onclick="ChangeHotelsPage(@pageId,'minPrice')">
+                                    کمترین قیمت
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="theme-search-results-sort-select _desk-h">
+                        <h5 class="theme-search-results-sort-title _mb-10">مرتب سازی بر اساس :</h5>
+                        <select>
+                            <option value="maxPrice">بیشترین قیمت</option>
+                            <option value="minPrice">کمترین قیمت</option>
+                        </select>
+                    </div>
+            </form>
+            <div class="theme-search-results">
+                <div class="_mob-h">
+                    @foreach (var item in Model.Item1)
+                    {
+                        <div class="theme-search-results-item _mb-10 theme-search-results-item-full">
+                            <div class="theme-search-results-item-preview">
+                                <a class="theme-search-results-item-mask-link" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="searchResultsItem-"></a>
+                                <div class="row row-no-gutter row-eq-height">
+                                    <div class="col-md-4">
+                                        <div class="banner theme-search-results-item-img-full banner-">
+                                            <img src="~/Hotels/ThumbHotelImage/@_hotelService.GetFirstImageByHotelID(item.HotelID)" />
+                                            <a class="banner-link" href="#"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="theme-search-results-item-body">
+                                            <div class="row row-eq-height" data-gutter="20">
+                                                <div class="col-md-8">
+                                                    <ul class="theme-search-results-item-hotel-stars">
+                                                        @for (int i = 0; i < item.StarCount; i++)
+                                                        {
+                                                            <li>
+                                                                <i class="fa fa-star"></i>
+                                                            </li>
+                                                        }
+
+                                                    </ul>
+                                                    <h5 class="theme-search-results-item-title theme-search-results-item-title-lg">@item.HotelName</h5>
+                                                    <div class="theme-search-results-item-hotel-rating">
+                                                        <p class="theme-search-results-item-location">
+                                                            <i class="fa fa-map-marker"></i>@_hotelService.GetCityTitleByCityID(item.CityID)
+                                                        </p>
+                                                        <p class="theme-search-results-item-hotel-rating-title">
+                                                            امتیاز <b>7.5 </b>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="theme-search-results-item-book">
+                                                        <div class="theme-search-results-item-price">
+                                                            <span class="theme-search-results-item-price-tag"> @item.MinPriceForOneNight.ToString("n0")  </span> <small>تومان</small>
+                                                            <p class="theme-search-results-item-price-sign">شروع قیمت برای 1 شب</p>
+                                                        </div>
+                                                        <a class="btn btn-primary-inverse btn-block theme-search-results-item-price-btn" href="/Hotels/ShowHotel/@item.HotelID">
+                                                            مشاهده و رزرو
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="theme-search-results-mobile-filters" id="mobileFilters">
+                    <a class="theme-search-results-mobile-filters-btn magnific-inline" href="#MobileFilters">
+                        <i class="fa fa-filter"></i>فیلتر
+                    </a>
+                    <div class="magnific-popup mfp-hide" id="MobileFilters">
+                        <div class="theme-search-results-sidebar">
+                            <div class="theme-search-results-sidebar-sections">
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">بر اساس ستاره</h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۵ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">400</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title"> ۴ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">233</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۳ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">197</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۲ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">285</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">۱ ستاره</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">307</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">
+                                        میزان محبوبیت
+                                    </h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">فوق العاده (9 تا 10)</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">428</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">عالی (7 تا 8)</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">221</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">قابل قبول (کمتر از 6)</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">367</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">براساس قیمت</h5>
+                                    <div class="theme-search-results-sidebar-section-price">
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    تا۱,۰۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۱,۰۰۰,۰۰۰ ریال تا ۲,۵۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۲,۵۰۰,۰۰۰ ریال تا ۵,۰۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۵,۰۰۰,۰۰۰ ریال تا ۷,۵۰۰,۰۰۰ ریال
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                            <label class="icheck-label">
+                                                <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                <span class="icheck-title">
+                                                    از ۷,۵۰۰,۰۰۰ ریال به بالا
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">بر اساس نوع اقامتگاه</h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">هتل</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">230</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">
+                                                        هتل آپارتمان
+                                                    </span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">210</span>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">مجتمع اقامتی</span>
+                                                </label>
+                                                <span class="theme-search-results-sidebar-section-checkbox-list-amount">226</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="theme-search-results-sidebar-section">
+                                    <h5 class="theme-search-results-sidebar-section-title">بر اساس امکانات</h5>
+                                    <div class="theme-search-results-sidebar-section-checkbox-list">
+                                        <div class="theme-search-results-sidebar-section-checkbox-list-items">
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">استخر</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">سرویس بهداشتی ایرانی</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">پارکینگ</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                <label class="icheck-label">
+                                                    <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                    <span class="icheck-title">کولر گازی</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" id="SearchResultsCheckboxNeighborhoods">
+                                            <div class="theme-search-results-sidebar-section-checkbox-list-items theme-search-results-sidebar-section-checkbox-list-items-expand">
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title">یخچال</span>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title"> لوازم آشپزی</span>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title">میز بیلیارد</span>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title">سونا</span>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title"> جکوزی</span>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title">حمام</span>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
+                                                    <label class="icheck-label">
+                                                        <div class="icheck" style="position: relative;"><input class="icheck" type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <span class="icheck-title">ماشین لباسشویی</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="theme-search-results-sidebar-section-checkbox-list-expand-link" role="button" data-toggle="collapse" href="#SearchResultsCheckboxNeighborhoods" aria-expanded="false">
+                                            مشاهده بیشتر
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination">
+                @*<a href="#">&laquo;</a>
+
+                    <a href="#" class="active">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#">&raquo;</a>*@
+                @for (int i = 1; i <= Model.Item2 + 1; i++)
+                {
+                    <a class="@((i==pageId)?"active":"")" onclick="ChangeHotelsPage(@i,'@order')">@i</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function ChangeHotelsPage(pageId,order) {
+        let filterName = document.getElementById('filterName').value;
+
+        let filterPrice = document.getElementById('filterPrice');
+
+        debugger;
+
+      
+
+        let filterStarCount1 = document.getElementById('filterStarCount1');
+        let filterStarCount2 = document.getElementById('filterStarCount2');
+        let filterStarCount3 = document.getElementById('filterStarCount3');
+        let filterStarCount4 = document.getElementById('filterStarCount4');
+        let filterStarCount5 = document.getElementById('filterStarCount5');
+        var valueStartCount1 = "";
+        var valueStartCount2 = "";
+        var valueStartCount3 = "";
+        var valueStartCount4 = "";
+        var valueStartCount5 = "";
+
+        if (filterStarCount1.checked == true) {
+            valueStartCount1 = filterStarCount1.value;
+        }
+        if (filterStarCount2.checked == true) {
+            valueStartCount2 = filterStarCount2.value;
+        }
+        if (filterStarCount3.checked == true) {
+            valueStartCount3 = filterStarCount3.value;
+        }
+        if (filterStarCount4.checked == true) {
+            valueStartCount4 = filterStarCount4.value;
+        }
+        if (filterStarCount5.checked == true) {
+            valueStartCount5 = filterStarCount5.value;
+        }
+
+        if (filterPrice!=null) {
+            location.replace("/Hotels/Index?filterName=" + filterName + "&filterPrice=" + filterPrice.value + "&filterStarCount=" + valueStartCount1 + "&filterStarCount=" + valueStartCount2 + "&filterStarCount=" + valueStartCount3 + "&filterStarCount=" + valueStartCount4 + "&filterStarCount=" + valueStartCount5+"&pageId="+pageId+"&order="+order);
+
+        }
+        else {
+            location.replace("/Hotels/Index?filterName=" + filterName + "&filterStarCount=" + valueStartCount1 + "&filterStarCount=" + valueStartCount2 + "&filterStarCount=" + valueStartCount3 + "&filterStarCount=" + valueStartCount4 + "&filterStarCount=" + valueStartCount5 + "&pageId=" + pageId + "&order=" +order);
+
+        }
+
+
+    }
+</script>

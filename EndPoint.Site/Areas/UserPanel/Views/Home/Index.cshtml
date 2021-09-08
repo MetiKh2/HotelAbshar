@@ -1,0 +1,110 @@
+﻿@model HotelAbshar.Domain.Entities.User.User
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using HotelAbshar.Common.Convertors 
+<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2-5">
+          <partial name="_SideBar"/>
+            </div>
+            <div class="col-md-9-5">
+                <div class="row">
+                    <div class="col-md-9 ">
+                        <div class="theme-account-preferences _mt-40">
+                            <div class="theme-account-preferences-item">
+                                <div class="row">
+                                    <div class="col-md-3 ">
+                                        <h5 class="theme-account-preferences-item-title">ایمیل:	</h5>
+                                    </div>
+                                    <div class="col-md-7 ">
+                                        <p class="theme-account-preferences-item-value">@Model.Email</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form asp-action="EditFullName" method="post">
+                                <div class="theme-account-preferences-item">
+                                    <div class="row">
+                                        <div class="col-md-3 ">
+                                            <h5 class="theme-account-preferences-item-title">نام ونام خانوادگی:</h5>
+                                        </div>
+                                        <div class="col-md-7 ">
+                                            <p class="theme-account-preferences-item-value">@Model.FullName</p>
+                                            <div class="collapse" id="ChangeHomeAirportChange">
+                                                <div class="theme-account-preferences-item-change">
+                                                    <div class="form-group theme-account-preferences-item-change-form">
+                                                        <input class="form-control" type="text" name="newFullName">
+                                                    </div>
+                                                    <div class="theme-account-preferences-item-change-actions">
+                                                        
+                                                        <input value="ذخیره تغییرات" class="btn btn-sm btn-primary" type="submit"/>
+                                                        <a class="btn btn-sm btn-default" href="#ChangeHomeAirportChange" data-toggle="collapse" aria-expanded="false" aria-controls="ChangeHomeAirportChange">لغو</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 ">
+                                            <a class="theme-account-preferences-item-change-link" href="#ChangeHomeAirportChange" data-toggle="collapse" aria-expanded="false" aria-controls="ChangeHomeAirportChange">
+                                                <i class="fa fa-pencil"></i>ویرایش
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form asp-action="EditUserName" method="post">
+                                <div class="theme-account-preferences-item">
+                                    <div class="row">
+                                        <div class="col-md-3 ">
+                                            <h5 class="theme-account-preferences-item-title">نام کاربری(در صورت ویرایش باید دوباره لاگین کنید):</h5>
+                                        </div>
+                                        <div class="col-md-7 ">
+                                            <p class="theme-account-preferences-item-value">@Model.UserName</p>
+                                            @if (ViewBag.ExistUserName==true)
+                                            {
+                                                <p class="text text-danger">نام کاربری توطسط شخص دیگری انتخاب شده است</p>
+                                            }
+                                            <div class="collapse" id="ChangeHomeSite">
+                                                <div class="theme-account-preferences-item-change">
+                                                    <div class="form-group theme-account-preferences-item-change-form">
+                                                        <input class="form-control" name="newUserName" type="text">
+                                                    </div>
+                                                    <div class="theme-account-preferences-item-change-actions">
+                                                        <input value="ذخیره تغییرات" class="btn btn-sm btn-primary" type="submit" />
+                                                        <a class="btn btn-sm btn-default" href="#ChangeHomeAirportChange" data-toggle="collapse" aria-expanded="false" aria-controls="ChangeHomeAirportChange">لغو</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 ">
+                                            <a class="theme-account-preferences-item-change-link" href="#ChangeHomeSite" data-toggle="collapse" aria-expanded="false" aria-controls="ChangeHomeSite">
+                                                <i class="fa fa-pencil"></i>ویرایش
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                    
+                       
+                            <div class="theme-account-preferences-item">
+                                <div class="row">
+                                    <div class="col-md-3 ">
+                                        <h5 class="theme-account-preferences-item-title"> تاریخ ثبت نام:</h5>
+                                    </div>
+                                    <div class="col-md-7 ">
+                                        <p class="theme-account-preferences-item-value">@Model.RegisterDate.ToShamsi()</p>
+                                       
+                                    </div>
+                               
+                                </div>
+                            </div>
+               
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

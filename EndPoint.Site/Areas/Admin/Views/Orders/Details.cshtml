@@ -1,0 +1,68 @@
+﻿@model List<HotelAbshar.Domain.Entities.Order_Cart.OrderDetail>
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@inject HotelAbshar.Application.Interfaces.IProductService _productService 
+<section id="hoverable-rows">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-warning">
+                        <h4 class="card-title">سفارشات</h4>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table  class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>کالا </th>
+                                    <th>قیمت</th>
+                                    <th>تعداد</th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+
+                                        <td>
+                                            <img src="~/Products/ThumbImages/@_productService.GetFirstImageByPrductID(item.ProductID)" style="width:100px;height:100px" />
+                                        </td>
+                                        <td>
+                                            <p class="theme-account-history-type-title">@_productService.GetProductNameByID(item.ProductID) </p>
+                                        </td>
+                                        <td>
+
+                                            @item.Price.ToString("n0")
+                                        </td>
+                                        <td class="theme-account-history-tr-date">
+                                            <p class="theme-account-history-date">@item.Count</p>
+                                        </td>
+
+
+
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                        
+
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+

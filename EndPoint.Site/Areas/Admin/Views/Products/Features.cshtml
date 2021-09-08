@@ -1,0 +1,112 @@
+﻿@model List<HotelAbshar.Domain.Entities.Product.ProductFeature>
+@{
+    ViewData["Title"] = "Features";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="basic-elements">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="content-header">ویرایش کالا</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0"></h4>
+                        <a href="/Admin/Products" class="btn btn-outline-primary">صفحه محصولات</a>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="px-3">
+                        <div class="form">
+                            <div class="form-body">
+                                <div class="row">
+                                    <form asp-action="Features" method="post">
+                                        <input name="productId" type="hidden" value="@ViewBag.productId" />
+                                        <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput"> نام ویژگی </label>
+                                                <input name="txtDisplayName" type="text" id="txtDisplayName" placeholder="نام ویژگی" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput"> مقدار ویژگی </label>
+                                                <input name="txtValue" type="text" id="txtValue" placeholder="مقدار ویژگی" />
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <br />
+                                                <input type="submit" id="s" class="btn btn-outline-success" value="افزودن" />
+                                            </fieldset>
+                                        </div>
+
+                                    </form>
+
+
+                                    <br class="clear" />
+
+                                    <table id="tbl_Features" class="col-md-12 table table-bordered table-hover  table-condensed table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    نام ویژگی
+                                                </th>
+                                                <th>
+                                                    مقدار ویژگی
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr> <td> @item.DisPlayName</td>  <td>@item.Value</td> <td> <a onclick="DeleteFeatures(@item.PF_ID)" class="idFeatures btnDelete btn btn-danger"> حذف </a> </td> </tr>
+                                            }
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+ function DeleteFeatures (pf_Id) {
+
+    
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteFeatures")",
+            data: { PF_ID: pf_Id },
+            dataType: "text",
+            success: function (msg) {
+            console.log(msg);
+
+            },
+            error: function (req, status, error) {
+            console.log(msg);
+            }
+            }).then(function (isConfirm) {
+            location.reload();
+            });
+    };
+</script>

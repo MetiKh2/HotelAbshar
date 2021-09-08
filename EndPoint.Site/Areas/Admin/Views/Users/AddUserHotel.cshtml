@@ -1,0 +1,52 @@
+﻿ @model List<HotelAbshar.Domain.Entities.Hotels.Hotel>
+@{
+    ViewData["Title"] = "AddUserHotel";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+         
+            <div class="card-body">
+                <div class="card-block">
+                    <form class="form" asp-action="AddUserHotel" method="post">
+                        <input name="userId" value="@ViewBag.UserID" type="hidden"/>
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <fieldset class="form-group">
+                                        <label for="basicInputFile">  هتل را وارد کنید</label>
+                                        <input type="text" list="Hotels" name="hotel" class="form-control-file" id="basicInputFile">
+                                    </fieldset>
+                                </div>
+                                @if (ViewBag.Error==true)
+                                {
+                                    <div class="alert alert-danger"><p style="color:white">خطا!</p></div>
+
+                                }
+                                <div class="col-lg-6 col-md-12">
+                                    <fieldset class="form-group">
+
+                                        <input type="submit" class="btn btn-outline-success" value="ذخیره">
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                        </div>
+                        <datalist id="Hotels">
+                            @foreach (var item in Model)
+                            {
+                                <option value="@item.HotelID-@item.HotelName" />
+
+                            }
+
+                        </datalist>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

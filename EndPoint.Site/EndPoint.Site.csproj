@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\UserPanel\Data\**" />
+    <Compile Remove="Areas\UserPanel\Models\**" />
+    <Content Remove="Areas\UserPanel\Data\**" />
+    <Content Remove="Areas\UserPanel\Models\**" />
+    <EmbeddedResource Remove="Areas\UserPanel\Data\**" />
+    <EmbeddedResource Remove="Areas\UserPanel\Models\**" />
+    <None Remove="Areas\UserPanel\Data\**" />
+    <None Remove="Areas\UserPanel\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="WebMarkupMin.AspNetCore3" Version="2.10.0" />
+    <PackageReference Include="ZarinpalSandbox" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HotelAbshar.Application\HotelAbshar.Application.csproj" />
+    <ProjectReference Include="..\HotelAbshar.Domain\HotelAbshar.Domain.csproj" />
+    <ProjectReference Include="..\HotelAbshar.Persistence\HotelAbshar.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Hotels\DescriptionFiles\" />
+    <Folder Include="wwwroot\Hotels\HotelImages\" />
+    <Folder Include="wwwroot\Hotels\Room\Images\" />
+    <Folder Include="wwwroot\Hotels\Room\ThumbImages\" />
+    <Folder Include="wwwroot\Hotels\SliderHotelImages\" />
+    <Folder Include="wwwroot\Hotels\ThumbHotelImage\" />
+    <Folder Include="wwwroot\News\Images\" />
+    <Folder Include="wwwroot\News\ShowSiteImage\" />
+    <Folder Include="wwwroot\News\ThumbImages\" />
+    <Folder Include="wwwroot\News\TextFiles\" />
+    <Folder Include="wwwroot\Products\DescriptionFiles\" />
+    <Folder Include="wwwroot\Products\Images\" />
+    <Folder Include="wwwroot\Products\ShowSiteImage\" />
+    <Folder Include="wwwroot\Products\ThumbImages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\ajax\jquery.unobtrusive-ajax.js" />
+    <None Include="wwwroot\ajax\jquery.unobtrusive-ajax.min.js" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\.gitignore" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\.npmignore" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\css\font-awesome.css.map" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\animated.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\bordered-pulled.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\core.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\fixed-width.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\font-awesome.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\icons.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\larger.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\list.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\mixins.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\path.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\rotated-flipped.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\stacked.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\less\variables.less" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\font-awesome.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_animated.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_bordered-pulled.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_core.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_fixed-width.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_icons.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_larger.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_list.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_mixins.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_path.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_rotated-flipped.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_stacked.scss" />
+    <None Include="wwwroot\DatePicker\css\fontawesome\scss\_variables.scss" />
+    <None Include="wwwroot\DatePicker\js\ajaxmin.bat" />
+    <None Include="wwwroot\DatePicker\js\angular.min.js" />
+    <None Include="wwwroot\DatePicker\js\jquery-1.10.1.min.js" />
+    <None Include="wwwroot\DatePicker\js\persianDatepicker.js" />
+    <None Include="wwwroot\DatePicker\js\persianDatepicker.min.js" />
+    <None Include="wwwroot\DatePicker\js\prism.js" />
+    <None Include="wwwroot\DatePicker\js\prism.min.js" />
+    <None Include="wwwroot\DatePicker\js\vertical-responsive-menu.min.js" />
+  </ItemGroup>
+
+</Project>

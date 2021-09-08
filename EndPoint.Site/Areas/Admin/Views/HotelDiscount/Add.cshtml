@@ -1,0 +1,134 @@
+﻿@model HotelAbshar.Domain.Entities.Discount.HotelDiscount
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<HotelAbshar.Domain.Entities.Hotels.Hotel> Hotels = ViewBag.Hotels;
+}
+
+
+<section id="basic-input-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">اضافه کردن کد تخفیف</h4>
+                    </div>
+                </div>
+                <form id="formAddHotelDiscount" asp-action="Add" method="post">
+                    <div class="card-body">
+                        <div class="card-block">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="text" id="code" class="form-control" asp-for="DiscountCode" placeholder="کد تخفیف " aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="number" id="precent" class="form-control" asp-for="DiscountPercent" placeholder=" درصد % " aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>    <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="number" id="roleTitle" class="form-control" asp-for="UsableCount" placeholder=" تعداد " aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>     <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="text" id="stDate" class="form-control" name="newStartDate" placeholder="شروع  " aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>     <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="text" id="edDate" class="form-control" name="newEndDate" placeholder="پایان  " aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <label>برای؟</label>
+                                <select asp-for="DiscountFor">
+                                    <option value="All" selected>همه</option>
+                                    <option value="FirstBuy">خرید اولی ها</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-top:17px" class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                    <label for="disabledInput">  هتل ؟</label>
+                                    <input list="Hotels" name="hotel" id="hotel" />
+                                </fieldset>
+                            </div>
+
+                            <datalist id="Hotels">
+                                @foreach (var item in Hotels)
+                                {
+                                    <option value="@item.HotelID-@item.HotelName" />
+
+                                }
+
+                            </datalist>
+
+                            <br>   @if (ViewBag.ExistCode == true)
+                            {
+                                <p class="text text-danger">کد تکراری می باشد</p>
+                            }
+                            @if (ViewBag.NoIsValid == true)
+                            {
+                                <p class="text text-danger">درصد و کد را وارد کنید</p>
+                            }
+                            <input type="submit" value="اضافه کن" class="btn btn-success" />
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    const formAddHotelDiscount = document.querySelector('#formAddHotelDiscount');
+    formAddHotelDiscount.addEventListener('submit', event => {
+        let precent = document.getElementById('precent').value;
+        let code = document.getElementById('code').value;
+
+
+
+        if (code == "" || precent=="") {
+            alert("لطفا کد و درصد را وارد کنید");
+            event.preventDefault();
+        }
+        if (precent > 100 || precent < 0) {
+            alert("درصد را درست وارد کنید");
+            event.preventDefault();
+        }
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>
+
+@section Scripts{
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+
+
+    <script src="~/DatePicker/js/kendo.all.min.js"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#stDate").kendoDatePicker();
+        $("#edDate").kendoDatePicker();
+    </script>
+}

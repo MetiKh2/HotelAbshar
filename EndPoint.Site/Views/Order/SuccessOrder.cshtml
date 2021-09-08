@@ -1,0 +1,87 @@
+﻿@model HotelAbshar.Domain.Entities.Order_Cart.Order
+@{
+    ViewData["Title"] = "SuccessOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using HotelAbshar.Common.Convertors
+@inject HotelAbshar.Application.Interfaces.IUserService _userService
+<div class="theme-page-section theme-page-section-xl theme-page-section-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="theme-payment-success">
+                    <div class="theme-payment-success-header">
+                        <i class="fa fa-check-circle theme-payment-success-header-icon"></i>
+                        <h1 class="theme-payment-success-title">خرید شما با موفقیت انجام شد.</h1>
+                    </div>
+                    <div class="theme-payment-success-box">
+                        <ul class="theme-payment-success-summary">
+                            <li>
+                                شماره فاکتور
+                                <span>@Model.OrderID</span>
+                            </li>
+                            <li>
+                                تاریخ پرداخت
+                                <span> @DateTime.Now.Hour:@DateTime.Now.Minute - @DateTime.Now.ToShamsi() </span>
+                            </li>
+                            <li>
+                                مشتری
+                                <span>@_userService.GetFulNameByUserName(User.Identity.Name)</span>
+                            </li>
+                            <li>
+                             وضعیت سفارش
+                                <span>در حال پردازش</span>
+                            </li>
+                          
+                            <li>
+                                نوع پرداخت
+                                <span>کیف پول</span>
+                            </li>
+                            @{ 
+                                var sumAmount = Model.SumAmount + 25000;
+                            }
+                            <li>
+                                کل مبلغ پرداختی
+                                <span>@sumAmount.ToString("n0")</span>
+                            </li>
+                        </ul>
+                        <p class="theme-payment-success-check-order">
+                            شما می توانید جزئیات رزرو خود را در صفحه پروفایل خود بررسی کنید.
+                            <a href="/UserPanel">پنل کاربری</a>
+                        </p>
+                    </div>
+                    <ul class="theme-payment-success-actions">
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <p>
+                                    دریافت
+                                    <br>PDF
+                                </p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-print"></i>
+                                <p>
+                                    دریافت
+                                    <br>Print
+                                </p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-envelope-o"></i>
+                                <p>
+                                    دریافت
+                                    <br>SMS
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,51 @@
+﻿
+@inject HotelAbshar.Application.Interfaces.IUserService _userService
+
+<div class="theme-account-sidebar">
+    <p class="theme-account-avatar-name">کاربر عزیز خوش آمدید.</p>
+    <div class="card profile-card _mb-2">
+        <div class="card-img-top img-fluid height-50 "></div>
+        <div class="card-profile-image">
+            <i class="fa fa-user-o _fs-xl"></i>
+        </div>
+        <div class="profile-card-with-cover-content text-center height-50 ">
+            <p style="color:white;margin-top:11px">
+                 اعتبار شما    :   @_userService.GetSumWallet(User.Identity.Name)   تومان 
+            </p>
+        </div>
+    </div>
+    <nav class="theme-account-nav">
+        <ul class="theme-account-nav-list">
+            <li class="active">
+                <a href="/UserPanel">
+                    <i class="fa fa-user"></i>حساب کاربری
+                </a>
+            </li>
+            <li class="">
+                <a href="/UserPanel/Home/ChangePassword">
+                    <i class="fa fa-user-secret"></i>تغییر رمز عبور
+                </a>
+            </li>
+            <li>
+                <a href="/UserPanel/Home/Wallet">
+                    <i class="fa fa-credit-card"></i>افزایش اعتبار
+                </a>
+            </li>
+            <li>
+                <a href="account-travelers.html">
+                    <i class="fa fa-user-circle-o"></i>لیست مسافران
+                </a>
+            </li>
+            <li>
+                <a href="/UserPanel/Home/Reserves">
+                    <i class="fa fa-history"></i>تاریخچه رزرو
+                </a>
+            </li>
+            <li>
+                <a href="/UserPanel/Home/Orders">
+                    <i class="fa fa-shopping-bag"></i> سفارشات فروشگاه
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

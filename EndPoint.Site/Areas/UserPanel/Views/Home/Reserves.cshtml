@@ -1,0 +1,73 @@
+﻿@model List<HotelAbshar.Domain.Entities.Reservation.Reservation>
+@{
+    ViewData["Title"] = "Reserves";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject HotelAbshar.Application.Interfaces.IHotelService _hotelService
+@using HotelAbshar.Common.Convertors
+<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2-5">
+                <partial name="_SideBar" />
+            </div>
+            <div class="col-md-9-5 ">
+                <h3 class="theme-account-page-title">تاریخچه رزرو</h3>
+                <div class="theme-account-history">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>نام هتل</th>
+                                <th>نام اتاق</th>
+                                <th>تاریخ ورود</th>
+                                <th>تاریخ خروج</th>
+                                <th>مبلغ پرداختی</th>
+                                <th>مبلغ کل</th>
+                                <th> --</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td class="theme-account-history-type">
+                                    <i class="fa fa-bed theme-account-history-type-icon"></i>
+                                </td>
+                                <td>
+                                    <p class="theme-account-history-type-title">@_hotelService.GetHotelByID(item.HotelID).HotelName </p>
+                                </td>
+                                <td>
+
+                                    <a class="theme-account-history-item-name" href="#">@_hotelService.GetHotelRoomByID(item.HotelRoomID).HotelRoomTitle</a>
+                                </td>
+                                <td class="theme-account-history-tr-date">
+                                    <p class="theme-account-history-date">@item.StartDate.ToShamsi()</p>
+                                </td>
+                                <td class="theme-account-history-tr-date">
+                                    <p class="theme-account-history-date">@item.EndDate.ToShamsi()</p>
+                                </td>
+                                @{
+                                    int reservationDays = (item.EndDate - item.StartDate).Days;
+                                    int totalPrice =_hotelService.GetHotelRoomByID(item.HotelRoomID).PriceForOneNight * reservationDays;
+                                }
+                                <td>
+                                    <p class="theme-account-history-item-price">@((totalPrice*0.25).ToString("n0"))</p>
+                                </td>
+
+                                <td>
+                                    <p class="theme-account-history-item-price">@totalPrice.ToString("n0")</p>
+                                </td>
+                                <td>
+                                   <a class="text text-primary" href="/UserPanel/Home/Traveler/@item.ReservationID">جزییات مسافران</a>
+                                </td>
+                            </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

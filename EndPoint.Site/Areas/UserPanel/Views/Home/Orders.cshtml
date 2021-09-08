@@ -1,0 +1,80 @@
+﻿@model List<HotelAbshar.Domain.Entities.Order_Cart.Order>
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using HotelAbshar.Common.Convertors
+@using HotelAbshar.Domain.Entities.Order_Cart
+<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2-5">
+                <partial name="_SideBar" />
+            </div>
+            <div class="col-md-9-5 ">
+                <h3 class="theme-account-page-title">تاریخچه رزرو</h3>
+                <div class="theme-account-history">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>شماره سفارش</th>
+                                <th>تاریخ</th>
+                                <th>قیمت کل</th>
+                                <th>وضعیت</th>
+                             
+                                <th> --</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="theme-account-history-type">
+                                        <i class="fa fa-first-order theme-account-history-type-icon"></i>
+                                    </td>
+                                    <td>
+                                        <p class="theme-account-history-type-title">@item.OrderID </p>
+                                    </td>
+                                    <td>
+
+                                    @item.CreateDate.ToShamsi()
+                                    </td>
+                                    <td class="theme-account-history-tr-date">
+                                        <p class="theme-account-history-date">@item.SumAmount.ToString("n0")</p>
+                                    </td>
+                                    <td class="theme-account-history-tr-date">
+                                        @if (item.OrderState == OrderState.Canceled)
+                                        {
+                                            <p class="text text-danger theme-account-history-date">لغو شده</p>
+
+                                        } @if (item.OrderState == OrderState.Delivered)
+                                        {
+                                            <p class="text text-success theme-account-history-date">ارسال شده</p>
+
+                                        } @if (item.OrderState == OrderState.NotPayment)
+                                        {
+                                            <p class="text text-warning theme-account-history-date">پرداخت نشده</p>
+
+                                        } @if (item.OrderState == OrderState.Processing)
+                                        {
+                                            <p class="text text-warning theme-account-history-date">در حال پردازش</p>
+
+                                        }
+                                    </td>
+                                 
+                                    <td>
+                                        <a class="text text-primary" href="/UserPanel/Home/OrderDetails/@item.OrderID">جزییات سفارش</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

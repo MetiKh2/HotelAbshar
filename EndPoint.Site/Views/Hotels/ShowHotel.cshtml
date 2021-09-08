@@ -1,0 +1,625 @@
+﻿@model HotelAbshar.Domain.Entities.Hotels.Hotel
+@{
+    ViewData["Title"] = "ShowHotel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<HotelAbshar.Domain.Entities.Hotels.Feature> features = ViewBag.features;
+    List<string> Images = ViewBag.Images;
+    List<HotelAbshar.Domain.Entities.Hotels.HotelRoom> Rooms = ViewBag.Rooms;
+
+    double cleanVotes = ViewBag.cleanVotes;
+    double employeeBehaviorVotes = ViewBag.employeeBehaviorVotes;
+    double locationVotes = ViewBag.locationVotes;
+    double serviceVotes = ViewBag.serviceVotes;
+}
+@inject HotelAbshar.Application.Interfaces.IHotelService _hotelService
+
+    <style>
+        input.Facilities[type=number] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+        }
+
+            input.Facilities[type=number]:focus {
+                border: 3px solid #555;
+            }
+    </style>
+
+<div class="theme-hero-area">
+    <div class="theme-hero-area-bg-wrap">
+        <div class="theme-hero-area-bg-pattern theme-hero-area-bg-pattern-ultra-light" style="background-image:url(../../wwwroot/Hotels/SliderHotelImages/@_hotelService.GetFirstImageByHotelID(Model.HotelID));"></div>
+        @*<img class="theme-hero-area-bg-pattern theme-hero-area-bg-pattern-ultra-light" src="~/SiteTemplate/img/img/"/>*@
+        <div class="theme-hero-area-grad-mask"></div>
+    </div>
+    <div class="theme-hero-area-body">
+        <div class="container">
+            <div class="theme-item-page-header _pb-50 theme-item-page-header-white">
+                <div class="theme-item-page-header-body">
+                    <ul class="theme-item-page-header-stars">
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                    <h2 class="theme-item-page-header-title">@Model.HotelName </h2>
+                    <div class="theme-item-page-header-price">
+                        <div class="theme-item-page-header-price-body">
+                            <p class="_fs-sm">شروع قیمت برای یک شب</p>
+                            <p class="_fs-xl">@Model.MinPriceForOneNight.ToString("n0") </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="theme-page-section theme-page-section-gray">
+    <div class="container">
+        <div class="row row-col-static" id="sticky-parent">
+            <div class="col-md-9 ">
+                @*<style>
+            .fotorama1624546184417 .fotorama__nav--thumbs .fotorama__nav__frame {
+                padding: 2px;
+                height: 64px
+            }
+
+            .fotorama1624546184417 .fotorama__thumb-border {
+                height: 60px;
+                border-width: 2px;
+                margin-top: 2px
+            }
+        </style>*@
+
+
+
+                @*<ul class="slides">*@
+
+                <div class="w3-content w3-section" style="max-width:500px">
+                    @foreach (var item in Images)
+                    {
+
+                        @*<input type="radio" name="radio-btn" id="img-1" checked />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="~/Hotels/SliderHotelImages/@item" />
+                    </div>
+                    <div class="nav">
+                        <label for="img-6" class="prev">&#x2039;</label>
+                        <label for="img-2" class="next">&#x203a;</label>
+                    </div>
+                </li>*@
+
+                        <img class="mySlides" src="~/Hotels/SliderHotelImages/@item" style="width:100%">
+
+
+                    }
+                </div>
+
+
+
+
+                @*<li class="nav-dots">
+                <label for="img-1" class="nav-dot" id="img-dot-1"></label>
+                <label for="img-2" class="nav-dot" id="img-dot-2"></label>
+                <label for="img-3" class="nav-dot" id="img-dot-3"></label>
+                <label for="img-4" class="nav-dot" id="img-dot-4"></label>
+                <label for="img-5" class="nav-dot" id="img-dot-5"></label>
+                <label for="img-6" class="nav-dot" id="img-dot-6"></label>
+            </li>
+        </ul>*@
+
+
+
+
+                <div style="margin-top:10px" class="theme-item-page-tabs _mb-30">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs nav-default nav-no-br nav-sqr nav-mob-inline" role="tablist">
+                            <li class="active" role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-1" role="tab" data-toggle="tab" href="#HotelPageTabs-1">درباره هتل</a>
+                            </li>
+                            <li role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-3" role="tab" data-toggle="tab" href="#HotelPageTabs-2">نظرات کاربران</a>
+                            </li>
+                            <li role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-4" role="tab" data-toggle="tab" href="#HotelPageTabs-3">امکانات</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content _p-30 _bg-w">
+                            <div class="tab-pane active" id="HotelPageTabs-1" role="tab-panel">
+                                <div class="theme-item-page-desc">
+                                    <p>@Html.Raw(Model.Description)</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="HotelPageTabs-2" role="tab-panel">
+                                <div class="theme-reviews">
+                                    <div class="theme-reviews-score theme-reviews-score-hor">
+                                        <div class="row">
+                                            <div class="col-md-3 ">
+                                                <div class="theme-reviews-score-header">
+                                                    <p class="theme-reviews-score-subtitle">میانگین رضایت‌مندی</p>
+                                                </div>
+                                                @{
+                                                    double sum = cleanVotes + employeeBehaviorVotes + serviceVotes + locationVotes;
+                                                    int averrage = (int)sum / 4;
+                                                }
+                                                <div class="theme-reviews-score-total">
+                                                    <p>@averrage</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 ">
+                                                <div class="theme-reviews-score-list">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">تمیزی و پاکیزگی</p>
+                                                                    <p class="theme-reviews-score-item-num">@((int)cleanVotes)</p>
+                                                                </div>
+                                                                <progress class="theme-reviews-score-item-bar" max="10" value="@(cleanVotes)">
+
+                                                                </progress>
+                                                                @*<div class="theme-reviews-score-item-bar">
+                                                                    <div style="width:@(cleanVotes*10)%;"></div>
+                                                                </div>*@
+                                                            </div>
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">خدمات و سرویس دهی</p>
+                                                                    <p class="theme-reviews-score-item-num">@((int)serviceVotes)</p>
+                                                                </div>
+                                                                <progress class="theme-reviews-score-item-bar" max="10" value="@serviceVotes">
+
+                                                                </progress>
+                                                            </div>
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">موقعیت مکانی</p>
+                                                                    <p class="theme-reviews-score-item-num">@((int)locationVotes)</p>
+                                                                </div>
+                                                                <progress class="theme-reviews-score-item-bar" max="10" value="@locationVotes">
+
+                                                                </progress>
+                                                            </div>
+                                                            <div class="theme-reviews-score-item">
+                                                                <div class="theme-reviews-score-item-header">
+                                                                    <p class="theme-reviews-score-item-title">برخورد کارکنان</p>
+                                                                    <p class="theme-reviews-score-item-num">@((int)employeeBehaviorVotes)</p>
+                                                                </div>
+                                                                <progress class="theme-reviews-score-item-bar" max="10" value="@employeeBehaviorVotes">
+
+                                                                </progress>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="theme-reviews-list" id="listComment">
+                                        
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="HotelPageTabs-3" role="tab-panel">
+                                <div class="theme-item-page-facilities">
+                                    <div class="row">
+                                        @for (int i = 0; i < (features.Count / 3) + 1; i++)
+                                        {
+                                            <div class="col-md-3">
+                                                @foreach (var item in features.Skip(i * 3).Take(3))
+                                                {
+                                                    <div class="theme-item-page-facilities-item">
+
+                                                        <h5 class="theme-item-page-facilities-item-title text-success">@item.FeatureTitle</h5>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        @*<div class="col-md-3 ">
+
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-taxi theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">تاکسی سرویس</h5>
+                                    </div>
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-glass theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">نوشیدنی</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-shopping-bag theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">فروشگاه</h5>
+                                    </div>
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-car theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">پارکینگ</h5>
+                                    </div>
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-bath theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">حمام</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-tint theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">خدمات نظافت</h5>
+                                    </div>
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-fire theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">اعلام حریق</h5>
+                                    </div>
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-desktop theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">LED</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-coffee theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">کافی شاپ</h5>
+                                    </div>
+                                    <div class="theme-item-page-facilities-item">
+                                        <i class="fa fa-globe theme-item-page-facilities-item-icon"></i>
+                                        <h5 class="theme-item-page-facilities-item-title">مترجم</h5>
+                                    </div>
+                                </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form asp-action="ShowHotel" id="formSearch">
+                    <div id="booking-scroll">
+                        <div class="theme-search-area _p-30 _bg-p _mb-30 _br-3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="theme-search-area-form">
+                                        <div class="row" data-gutter="10">
+                                            <div class="col-md-3 ">
+                                                <div class="theme-search-area-section theme-search-area-section-sm theme-search-area-section-no-border theme-search-area-section-fade-white theme-search-area-section-curved">
+                                                    <div class="theme-search-area-section-inner">
+                                                        <i class="theme-search-area-section-icon lin lin-calendar"></i>
+                                                        <input class="theme-search-area-section-input datePickerStart _mob-h hasDatepicker" name="startDate" id="stDate" type="text" placeholder="تاریخ ورود" value="@ViewBag.startDate" onchange="ChangeDates()" style="">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 ">
+                                                <div class="theme-search-area-section theme-search-area-section-sm theme-search-area-section-no-border theme-search-area-section-fade-white theme-search-area-section-curved">
+                                                    <div class="theme-search-area-section-inner">
+                                                        <i class="theme-search-area-section-icon lin lin-calendar"></i>
+                                                        <input class="theme-search-area-section-input datePickerEnd _mob-h hasDatepicker" name="endDate" id="edDate" type="text" placeholder="تاریخ خروج" value="@ViewBag.EndDate" onchange="ChangeDates()" style="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <div class="theme-search-area-section theme-search-area-section-sm theme-search-area-section-no-border theme-search-area-section-fade-white theme-search-area-section-curved quantity-selector" data-increment="اتاق" style="display:none">
+                                                    <div class="theme-search-area-section-inner">
+                                                        <i class="theme-search-area-section-icon lin lin-tag"></i>
+                                                        <input class="theme-search-area-section-input" value="1 اتاق" disabled type="text">
+                                                        <div class="quantity-selector-box" id="HotelSearchRooms">
+                                                            <div class="quantity-selector-inner">
+                                                                <p class="quantity-selector-title">اتاق</p>
+                                                                <ul class="quantity-selector-controls">
+                                                                    <li class="quantity-selector-decrement">
+                                                                        <a href="#">-</a>
+                                                                    </li>
+                                                                    <li class="quantity-selector-current">1</li>
+                                                                    <li class="quantity-selector-increment">
+                                                                        <a href="#">+</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <div class="theme-search-area-section theme-search-area-section-sm theme-search-area-section-no-border theme-search-area-section-fade-white theme-search-area-section-curved quantity-selector" data-increment="ظرفیت">
+                                                    <div class="theme-search-area-section-inner">
+                                                        <i class="theme-search-area-section-icon lin lin-people"></i>
+                                                        <input class="theme-search-area-section-input" placeholder="ظرفیت" type="text" name="capacity">
+                                                        <div class="quantity-selector-box" id="HotelSearchGuests">
+                                                            <div class="quantity-selector-inner">
+                                                                <p class="quantity-selector-title">ظرفیت</p>
+                                                                <ul class="quantity-selector-controls">
+                                                                    <li class="quantity-selector-decrement">
+                                                                        <a href="#">-</a>
+                                                                    </li>
+                                                                    <li class="quantity-selector-current">1</li>
+                                                                    <li class="quantity-selector-increment">
+                                                                        <a href="#">+</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 ">
+
+                                                <input type="submit" class="theme-search-area-submit _mt-0 theme-search-area-submit-sm theme-search-area-submit-no-border theme-search-area-submit-curved" value="جستجو و رزرو" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="selectDateMessage" style="display:none" class="alert alert-danger">
+                    لطفا تاریخ ورود و خروج را مشخص کنید
+                </div>
+                @if (ViewBag.wrongDate == true)
+                {
+                    <div class="alert alert-danger">
+                        لطفا تاریخ هارا به درستی وارد کنید
+                    </div>
+                }
+                @*@if (ViewBag.StartDateBigger == true)
+
+                {
+                    <div class="alert alert-danger">
+                        دادچ داری اشتباه میزنی
+                    </div>
+                }*@
+
+                <div class="theme-item-page-rooms-table _p-10 _bg-w _mb-mob-30">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>نوع اتاق</th>
+                                <th>ظرفیت اتاق</th>
+                                <th>توضیحات</th>
+                                <th>قیمت برای هر شب</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (ViewBag.StartDateBigger == true)
+                            {
+                                <div class="alert alert-danger">
+                                    دادچ داری اشتباه میزنی
+                                </div>
+                            }
+                            else
+                            {
+                                foreach (var item in Rooms)
+                                {
+                                    <tr>
+                                        <td class="theme-item-page-rooms-table-type">
+                                            <h5 class="theme-item-page-rooms-table-type-title">@item.HotelRoomTitle</h5>
+                                            <img class="theme-item-page-rooms-table-type-img" src="~/Hotels/Room/ThumbImages/@item.ImageSrc" alt="Image Alternative text" title="Image Title">
+                                        </td>
+                                        <td>
+                                            <ul class="theme-item-page-rooms-table-guests-count">
+
+                                                @for (int i = 0; i < item.Capacity; i++)
+                                                {
+                                                    <li>
+                                                        <i class="fa fa-male"></i>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <p class="text text-sm-right text-primary">@item.Description</p>
+                                        </td>
+                                        <td class="theme-item-page-rooms-table-price">
+                                            <div>
+                                                <div class="theme-item-page-rooms-table-price-night">
+                                                    <strike>2,920,000</strike>
+                                                    <p class="text-bold-600 _fs-b">@item.PriceForOneNight.ToString("n0")   <small> ریال </small> </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary-inverse btn-block" id="addReserve" onclick="AddReserve(@item.HotelRoomID)">  رزرو کنید <i class="fa fa-arrow-left"></i> </a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <h2 style="color:blue;text-shadow:2px 2px 5px red">نظر دهید</h2>
+                <form id="formAddHotelComment"  asp-controller="Hotels" asp-action="AddComment" data-ajax="true"
+                                  data-ajax-method="post"
+                                  data-ajax-mode="replace"
+                                  data-ajax-update="#listComment"
+                                  data-ajax-success="Success">
+                    <input type="hidden" value="@Model.HotelID" name="hotelId" />
+                    <textarea id="TextComment" name="text" rows="10" cols="75" placeholder="متن نظر ..."></textarea>
+                    <h2 style="color:red;text-shadow:2px 2px 5px blue"> امکانات هتل</h2>
+                    <input id="emp" name="EmployeeBehavior" type="number" placeholder="رفتار کارکنان" max="10" min="1" class="Facilities" />
+                    <input id="loc" name="location" type="number" placeholder="مکان هتل" max="10" min="1" class="Facilities" />
+                    <input id="ser" name="service" type="number" placeholder="خدمات و سرویس ها" max="10" min="1" class="Facilities" />
+                    <input id="cle" name="clean" type="number" placeholder="تمیزی و مرتبی" max="10" min="1" class="Facilities" />
+                    <input type="submit" value="ثبت نظر" class="btn btn-success" />
+                </form>
+            </div>
+     
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+
+
+    <script src="~/DatePicker/js/kendo.all.min.js"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#stDate").kendoDatePicker();
+        $("#edDate").kendoDatePicker();
+    </script>
+
+    <script src="~/ajax/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function Success() {
+
+
+
+
+            $("#TextComment").val("");
+            $("#emp").val("");
+            $("#loc").val("");
+            $("#ser").val("");
+            $("#cle").val("");
+        }
+
+        $(function () {
+            $("#listComment").load("/Hotels/ShowComments/" +@Model.HotelID);
+
+        });
+
+        function pageComment(pageid) {
+            $("#listComment").load("/Hotels/ShowComments/" + @Model.HotelID+"?pageId=" + pageid);
+        }
+
+
+    </script>
+
+
+
+}
+
+<script>
+    const formAddHotelComment = document.querySelector('#formAddHotelComment');
+    formAddHotelComment.addEventListener('submit', event => {
+
+        let TextComment = document.getElementById('TextComment').value;
+      
+
+        if (TextComment == "") {
+            alert("متن نظر را وارد کنید");
+            event.preventDefault();
+        }
+
+
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>
+
+
+<script>
+
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) { myIndex = 1 }
+        x[myIndex - 1].style.display = "block";
+        setTimeout(carousel, 2000); // Change image every 2 seconds
+    }
+
+</script>
+<script type="text/javascript">
+
+    function AddReserve(roomId) {
+
+        let stDate = document.getElementById('stDate').value;
+        let edDate = document.getElementById('edDate').value;
+
+
+        if (stDate != "" && edDate != "") {
+            location.replace("/Reservation/AddReserve/" + roomId + "?stDate=" + stDate + "&edDate=" + edDate);
+
+        }
+        else {
+            var text = document.getElementById('selectDateMessage');
+            text.style.display = "block";
+            location.replace("#booking-scroll");
+
+        }
+
+
+    }
+
+
+
+</script>
+
+<script type="text/javascript">
+    @*function ChangeDates() {
+        let stDate = document.getElementById('stDate').value;
+        let edDate = document.getElementById('edDate').value;
+
+        if (stDate != "" && edDate != "") {
+            location.replace("/Hotels/ShowHotel/" + @Model.HotelID + "?startDate=" + stDate + "&endDate=" + edDate);
+
+        }
+
+    }*@
+
+
+    const formSearch = document.querySelector('#formSearch');
+    formSearch.addEventListener('submit', event => {
+
+        let stDate = document.getElementById('stDate').value;
+        let edDate = document.getElementById('edDate').value;
+
+       if (stDate == "" || edDate == "") {
+
+           var text = document.getElementById('selectDateMessage');
+           text.style.display = "block";
+           location.replace("#booking-scroll");
+           event.preventDefault();
+        }
+
+
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+</script>
+@*<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Get value on button click and show alert
+            $("#addReserve").click(function () {
+                var stDate = $("#startDate").val();
+                var edDate = $("#endDate").val();
+                alert(stDate);
+            });
+        });
+    </script>*@

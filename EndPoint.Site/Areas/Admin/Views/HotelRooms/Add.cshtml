@@ -1,0 +1,129 @@
+﻿@model HotelAbshar.Domain.Entities.Hotels.HotelRoom
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<HotelAbshar.Domain.Entities.Hotels.Hotel> Hotels = ViewBag.Hotels;
+}
+<section class="basic-elements">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="content-header">افزودن هتل</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">اطلاعات</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form id="formAddRoom" class="form" asp-action="Add" enctype="multipart/form-data">
+                            <input asp-for="HotelID" type="hidden"/>
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">نام اتاق </label>
+                                            <input type="text" asp-for="HotelRoomTitle" class="form-control" id="roomTitle">
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">تصویر اتاق </label>
+                                            <input type="file" name="Image" class="form-control" id="HotelName">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">ظرفیت اتاق </label>
+                                            <input type="number" asp-for="Capacity" class="form-control" id="capacity">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">  قیمت اتاق</label>
+                                            <input type="number" asp-for="PriceForOneNight" class="form-control" id="price">
+                                        </fieldset>
+                                    </div>
+                                    @*<div style="margin-top:17px" class="col-xl-4 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="disabledInput">  هتل ؟</label>
+                <input list="Hotels" name="hotel" id="hotel" />
+            </fieldset>
+        </div>*@
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">  شرح</label>
+                                            <textarea asp-for="Description" maxlength="150"></textarea>
+                                        </fieldset>
+                                    </div>
+
+                                    @*<datalist id="Hotels">
+            @foreach (var item in Hotels)
+            {
+                <option value="@item.HotelID-@item.HotelName" />
+
+            }
+
+        </datalist>*@
+
+
+                                    @if (ViewBag.NoIsValid == true)
+                                    {
+                                        <div class="alert alert-danger">نام و قیمت و ظرفیت را وارد کنید</div>
+                                    }
+
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+
+                                            <input class="btn btn-primary" value="افزودن" type="submit" />
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    const formAddRoom = document.querySelector('#formAddRoom');
+    formAddRoom.addEventListener('submit', event => {
+        let roomTitle = document.getElementById('roomTitle').value;
+        let capacity = document.getElementById('capacity').value;
+        let price = document.getElementById('price').value;
+        let hotel = document.getElementById('hotel').value;
+
+
+
+        if (roomTitle == "") {
+            alert("لطفا نام اتاق را وارد کنید");
+            event.preventDefault();
+        }
+        if (capacity == "") {
+            alert("لطفا ظرفیت را وارد کنید");
+            event.preventDefault();
+        }
+        if (price == "") {
+            alert("لطفا قیمت را وارد کنید");
+            event.preventDefault();
+        }
+        if (hotel == "") {
+            alert("لطفا هتل اتاق را وارد کنید");
+            event.preventDefault();
+        }
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

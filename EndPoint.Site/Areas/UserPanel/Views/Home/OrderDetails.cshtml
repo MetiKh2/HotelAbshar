@@ -1,0 +1,65 @@
+﻿@model List<HotelAbshar.Domain.Entities.Order_Cart.OrderDetail> 
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using HotelAbshar.Common.Convertors
+@using HotelAbshar.Domain.Entities.Order_Cart
+@inject HotelAbshar.Application.Interfaces.IProductService _productService 
+<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2-5">
+                <partial name="_SideBar" />
+            </div>
+            <div class="col-md-9-5 ">
+                <h3 class="theme-account-page-title">تاریخچه رزرو</h3>
+                <div class="theme-account-history">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>کالا </th>
+                                <th>قیمت</th>
+                                <th>تعداد</th>
+                             
+
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                
+                                <tr>
+                                    
+                                    <td class="theme-account-history-type">
+                                        <i class="fa fa-first-order theme-account-history-type-icon"></i>
+                                    </td>
+                                    <td>
+                                        <img src="~/Products/ThumbImages/@_productService.GetFirstImageByPrductID(item.ProductID)" style="width:100px;height:100px"/>
+                                    </td>
+                                    <td>
+                                        <p class="theme-account-history-type-title">@_productService.GetProductNameByID(item.ProductID) </p>
+                                    </td>
+                                    <td>
+
+                                        @item.Price.ToString("n0")
+                                    </td>
+                                    <td class="theme-account-history-tr-date">
+                                        <p class="theme-account-history-date">@item.Count</p>
+                                    </td>
+                                    
+
+                                 
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,169 @@
+﻿@model HotelAbshar.Domain.Entities.Reservation.Reservation
+@{
+    ViewData["Title"] = "EditReserve";
+    Layout = "~/Areas/HotelAdmin/Views/Shared/_AdminHotelLayout.cshtml";
+}
+@using HotelAbshar.Common.Convertors
+<div class="col-md-6">
+    <div class="card" style="height: 942px;">
+        <div class="card-header">
+            <div class="card-title-wrap bar-primary">
+                <h4 class="card-title" id="basic-layout-tooltip"> ویرایش رزرو</h4>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="px-3">
+
+                <form id="formEditReserve" class="form" asp-action="EditReserve" method="post">
+                    <input type="hidden" asp-for="HotelID" />
+                    <input type="hidden" asp-for="HotelRoomID" />
+                    <input type="hidden" asp-for="UserID" />
+                    <input type="hidden" asp-for="StartDate" style="display:none" />
+                    <input type="hidden" asp-for="EndDate" style="display:none" />
+                    <input type="hidden" asp-for="ReservationID" />
+                    <input type="hidden" asp-for="IsFinally" />
+                    <input type="hidden" name="lastStartDate" value="@Model.StartDate.ToShamsi()" />
+                    <input type="hidden" name="lastEndDate" value="@Model.EndDate.ToShamsi()" />
+
+                    <div class="form-body">
+
+                        <div class="form-group">
+                            <label for="issueinput1">ایمیل</label>
+                            <input type="text" id="Email" asp-for="Email" class="form-control" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Issue Title">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="issueinput2">موبایل</label>
+                            <input type="text" id="Mobile" class="form-control" asp-for="MobilePhone" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Opened By">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="issueinput3">تاریخ شروع</label>
+                                    <input type="text" id="newStartDate" class="form-control" name="newStartDate" value="@Model.StartDate.ToShamsi()" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Date Opened">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="issueinput4">تاریخ پایان</label>
+                                    <input type="text" id="newEndDate" class="form-control" name="newEndDate" value="@Model.EndDate.ToShamsi()" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Date Fixed">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                    @if (ViewBag.NoIsValid == true)
+                    {
+                        <div class="alert alert-danger">
+                            موبایل و تاریخ ها را وارد کنید
+                        </div>
+                    }
+
+                    @if (ViewBag.RoomFull == true)
+                    {
+                        <div class="alert alert-danger">
+                            اتاق در تاریخ انتخابی شما پر می باشد
+                        </div>
+                    }
+                    @if (ViewBag.startBigger == true)
+                    {
+                        <div class="alert alert-danger">
+                            تاریخ ورود و خروج متناسب نیستند
+                        </div>
+                    } @if (ViewBag.wrongDate == true)
+                    {
+                        <div class="alert alert-danger">
+                            تاریخ ها را به درستی وارد کنید
+                        </div>
+                    }
+                    <div class="form-actions">
+
+                        <input type="submit" value="ذخیره" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.default.min.css" rel="stylesheet" />
+
+
+    <script src="~/DatePicker/js/kendo.all.min.js"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#newStartDate").kendoDatePicker();
+        $("#newEndDate").kendoDatePicker();
+    </script>
+
+
+}
+
+
+
+<script>
+    const formEditReserve = document.querySelector('#formEditReserve');
+    formEditReserve.addEventListener('submit', event => {
+
+        let Email = document.getElementById('Email').value;
+        let Mobile = document.getElementById('Mobile').value;
+        let StartDate = document.getElementById('newStartDate').value;
+        let EndDate = document.getElementById('newEndDate').value;
+
+        if (Email == "" || Mobile == "" || StartDate == "" || EndDate == "") {
+            alert("لطفا تمامی موارد را وارد کنید");
+            event.preventDefault();
+        }
+
+
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>
+
+@*<script>
+        document.onkeydown = function (e) {
+            if (event.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'E'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'H'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'A'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'F'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'E'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>*@

@@ -1,0 +1,93 @@
+﻿@model List< HotelAbshar.Domain.Entities.Reservation.travelerReservation>
+@{
+    ViewData["Title"] = "ReserveTravelers";
+    Layout = "~/Areas/HotelAdmin/Views/Shared/_AdminHotelLayout.cshtml";
+}
+
+@using HotelAbshar.Common.Convertors
+
+<h1>مسافران</h1>
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">  رزرو ها</h4>
+                        <a class="btn btn-primary" href="/HotelAdmin/Home/Index/@ViewBag.HotelID">صفحه اصلی</a>
+                        <a class="btn btn-success" href="/HotelAdmin/Home/AddTraveler/@Model.FirstOrDefault().ReservationID">افزودن مسافر </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+
+                                    <th>نام مسافر </th>
+                                    <th>نام خانوادگی مسافر </th>
+                                    <th>جنسیت  </th>
+                                    <th>شماره ملی</th>
+                              
+                                    <th>اقدامات </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>@item.Name</td>
+                                        <td>@item.Family</td>
+                                        <td>@item.Sex</td>
+                                        <td>@item.NationalID</td>
+                                   
+                                  
+                                        <td>
+                                            <a class="success p-0" data-original-title="" title="" href="/HotelAdmin/Home/EditTraveler/@item.UserReservationID?ReserveID=@item.ReservationID">
+                                                <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                            </a>
+                                            @*<a class="info p-0" data-original-title="" title="مسافران" href="/HotelAdmin/Home/ReserveTravelers/@item.ReservationID">
+                                                <i class="fa fa-check font-medium-3 mr-2"></i>
+                                            </a>*@
+                                            <a class="danger p-0" data-original-title="" title="" onclick="DeleteTraveler(@item.UserReservationID)">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function DeleteTraveler (id) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteTraveler")",
+            data: { TravelerID: id },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+    };
+</script>
+

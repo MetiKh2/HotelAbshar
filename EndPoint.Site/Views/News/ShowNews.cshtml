@@ -1,0 +1,66 @@
+﻿@model HotelAbshar.Domain.Entities.News.News
+@{
+    ViewData["Title"] = "ShowNews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="theme-hero-area-body">
+    <div class="container">
+        <div class="theme-item-page-header _pb-50 theme-item-page-header-white">
+            <div class="theme-item-page-header-body">
+
+                <h2 class="theme-item-page-header-title">  @Model.Title </h2>
+                <div class="theme-item-page-header-price">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="theme-page-section theme-page-section-gray">
+    <div class="container">
+        <div class="row row-col-static" id="sticky-parent">
+            <div class="col-md-9 ">
+
+
+
+                    <img class="mySwlides" src="/News/Images/@Model.ImageSrc" style="width:80%" >
+
+
+
+
+
+
+
+
+
+                <div style="margin-top:10px" class="theme-item-page-tabs _mb-30">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs nav-default nav-no-br nav-sqr nav-mob-inline" role="tablist">
+                            <li class="active" role="presentation">
+                                <a class="_ph-30" aria-controls="HotelPageTabs-1" role="tab" data-toggle="tab" href="#HotelPageTabs-1">متن خبر</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content _p-30 _bg-w">
+                            <div class="tab-pane active" id="HotelPageTabs-1" role="tab-panel">
+                                <div class="theme-item-page-desc">
+                                    @Html.Raw(Model.Text)
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

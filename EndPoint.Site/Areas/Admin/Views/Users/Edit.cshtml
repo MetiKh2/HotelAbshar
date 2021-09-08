@@ -1,0 +1,120 @@
+﻿@model HotelAbshar.Domain.Entities.User.User
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<HotelAbshar.Domain.Entities.User.Role> Roles = ViewBag.Roles;
+    List<int> UserRoles = ViewBag.UserRoles;
+}
+
+
+<section class="basic-elements">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="content-header">ویرایش کاربر </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">ویرایش </h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form" id="formEditUser" asp-action="Edit" method="post">
+                            <input type="hidden" asp-for="UserID" />
+                            <input type="hidden" value="@ViewBag.EmailBeforeEdit" name="EmailBeforeEdit" />
+                            <input type="hidden" value="@ViewBag.UserNameBeforeEdit" name="UserNameBeforeEdit" />
+                            <input type="hidden" asp-for="Password" /> 
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">نام و نام خانوادگی </label>
+                                            <input type="text" asp-for="FullName" class="form-control" id="fullName">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">نام کاربری </label>
+                                            <input type="text" asp-for="UserName" class="form-control" id="userName">
+                                            @if (ViewBag.UserNameExist == true)
+                                            {
+                                                <p class="text text-danger">نام کاربری تکراری می باشد</p>
+                                            }
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+
+                                            <small class="text-muted"><i>ایمیل</i></small>
+                                            <input style="margin-top:4px" asp-for="Email" type="email" class="form-control" id="email">
+                                            @if (ViewBag.EmailExist == true)
+                                            {
+                                                <p class="text text-danger">ایمیل  تکراری می باشد</p>
+                                            }
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">رمز</label>
+                                            <input type="password" class="form-control" name="newPassword" id="password">
+                                            <p class="text text-info">در صورت وارد نکردن رمز عبور رمز قبلی لحاظ می شود</p>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">فعال؟</label>
+                                            <input type="checkbox" asp-for="IsActive" class="form-control" id="readonlyInput">
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+
+                                            <input type="submit" class="form-control btn btn-success" value="ویرایش" id="readonlyInput">
+
+                                        </fieldset>
+                                    </div>
+                                    @if (ViewBag.NoIsValid == true)
+                                    {
+                                        <div class="alert alert-danger">اطلاعات کامل یا صحیح نیست</div>
+                                    }
+                                </div>
+                                <h3>نقش ها</h3>
+                                <br />
+                                @foreach (var item in Roles)
+                                {
+                                    <b>  <input type="checkbox" @((UserRoles.Any(p=>p==item.RoleID)?"checked":"")) name="selectedRoles" value="@item.RoleID" /> @item.RoleTitle</b><br />
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const formEditUser = document.querySelector('#formEditUser');
+    formEditUser.addEventListener('submit', event => {
+        let fullName = document.getElementById('fullName').value;
+        let userName = document.getElementById('userName').value;
+        let email = document.getElementById('email').value;
+       
+      
+
+        if (userName == "" || fullName == "" || email == "") {
+            alert("لطفا تمامی موارد را وارد کنید");
+            event.preventDefault();
+        }
+        validateEmail(email);
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

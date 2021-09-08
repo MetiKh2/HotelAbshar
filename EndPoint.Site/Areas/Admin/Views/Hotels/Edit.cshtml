@@ -1,0 +1,210 @@
+﻿@model HotelAbshar.Domain.Entities.Hotels.Hotel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<HotelAbshar.Domain.Entities.Hotels.Feature> Features = ViewBag.Features;
+    List<int> HotelFeatures = ViewBag.HotelFeatures;
+}
+@inject HotelAbshar.Application.Interfaces.IHotelService _hotelService
+@{ 
+    List<string> Images = _hotelService.GetImagesByHotelID(Model.HotelID);
+}
+<section class="basic-elements">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="content-header">افزودن هتل</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">اطلاعات</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form id="formEditHotel" class="form" asp-action="Edit" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="HotelID" />
+                            <input type="hidden" asp-for="HotelEmail" />
+
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">نام هتل </label>
+                                            <input type="text" asp-for="HotelName" class="form-control" id="hotelTitle">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="helpInputTop">ایمیل</label>
+                                            <small class="text-muted"><i>fkazemi5236@gmail.com</i></small>
+                                            <input type="text" class="form-control" id="HotelEmail" name="newEmail">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">استان</label>
+                                            <select asp-for="ProvinceID" id="province" asp-items="ViewBag.provinces as SelectList"></select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">شهر</label>
+                                            <select asp-for="CityID" id="city" asp-items="ViewBag.cities as SelectList"></select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">چند ستاره ؟</label>
+                                            <input type="number" asp-for="StarCount" class="form-control" id="StarCount" min="1" max="5">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">چند طبقه ؟</label>
+                                            <input type="number" asp-for="FloorsCount" class="form-control" id="FloorCount">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="disabledInput">  کمترین قیمت برای هر شب</label>
+                                            <input type="number" asp-for="MinPriceForOneNight" class="form-control" id="price">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="roundText">آدرس </label>
+                                            <textarea asp-for="HotelAddress" maxlength="900" id="Address"></textarea>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="roundText">شرح </label>
+                                            <textarea asp-for="Description" id="description"></textarea>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="basicInput">تصاویر </label>
+                                            <input type="file" multiple name="images">
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <h3 style="color:seagreen">ویژگی ها</h3>
+                                            <hr />
+                                            @foreach (var item in Features)
+                                            {
+                                                <input type="checkbox" @((HotelFeatures.Any(p => p == item.FeatureID) ? "checked" : "")) style="color:green" value="@item.FeatureID" name="selectedFeatures" />@item.FeatureTitle
+                                                <br />
+                                            }
+                                        </fieldset>
+                                    </div>
+
+                                    @if (ViewBag.NoIsValid==true)
+                                    {
+                                        <div class="alert alert-danger">نام و شهر و آدرس و قیمت را وارد کنید</div>
+                                    }
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+
+                                            <input class="btn btn-primary" value="افزودن" type="submit" />
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form class="form" asp-action="DeleteImages" enctype="multipart/form-data">
+                            <input type="hidden" value="@Model.HotelID" name="hotelId"/>
+                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                    <h3 style="color:seagreen">تصویر ها</h3>
+                                    <hr />
+                                    @foreach (string item in Images)
+                                    {
+                                        <input type="checkbox" name="srcImages" value="@item" /><p>انتخاب کن</p>
+                                        <img src="~/Hotels/HotelImages/@item" />
+
+                                        <br />
+                                    }
+                                </fieldset>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                 <input type="submit"value="حذف کن" class="btn btn-danger"/>
+                                </fieldset>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+<script>
+
+    CKEDITOR.replace('description', {
+        customConfig: '/js/Config.js'
+    });
+
+</script>
+
+@section Scripts{
+    <script>
+        $("#province").change(function () {
+            $("#city").empty();
+            $.getJSON("/admin/Hotels/GetCities/" + $("#province :selected").val(),
+                function (data) {
+
+                    $.each(data,
+                        function () {
+                            $("#city").append('<option value=' + this.value + '>' + this.text + '</option>');
+
+                        });
+
+                });
+
+
+        });
+
+
+
+    </script>
+}
+<script>
+    const formEditHotel = document.querySelector('#formEditHotel');
+    formEditHotel.addEventListener('submit', event => {
+        let hotelTitle = document.getElementById('hotelTitle').value;
+        let city = document.getElementById('city').value;
+        let Address = document.getElementById('Address').value;
+        let price = document.getElementById('price').value;
+
+
+        
+        if (hotelTitle == "") {
+            alert("لطفا نام هتل را وارد کنید");
+            event.preventDefault();
+        }
+        if (city == "") {
+            alert("لطفا شهر هتل را وارد کنید");
+            event.preventDefault();
+        }
+        if (Address == "") {
+            alert("لطفا آدرس هتل را وارد کنید");
+            event.preventDefault();
+        } if (price == "") {
+            alert("لطفا قیمت  را وارد کنید");
+            event.preventDefault();
+        }
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

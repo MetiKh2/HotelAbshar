@@ -1,0 +1,82 @@
+﻿@model List<HotelAbshar.Domain.Entities.Product.Category>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int ParentID = ViewBag.ParentID;
+}
+<section id="simple-table">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">گروه ها </h4>
+                        @if (ParentID == 0)
+                        {
+                            <a class="btn btn-success" href="/Admin/ProductCategory/Add">افزودن گروه</a>
+
+                        }
+                        else
+                        {
+                            <a class="btn btn-success" href="/Admin/ProductCategory/Add/@ParentID">افزودن زیر گروه</a>
+
+                        }
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table">
+                            <thead>
+                                <tr>
+
+                                    <th>نام گروه</th>
+                                    <th>دستورات</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>@item.CategoryName</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="/Admin/ProductCategory/Index/@item.CategoryID">زیر گروه ها</a>
+                                            <a class="btn btn-warning" href="/Admin/ProductCategory/Edit/@item.CategoryID">ویرایش</a>
+                                            <a class="btn btn-danger" onclick="DeleteCategory(@item.CategoryID)">حذف</a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script type="text/javascript">
+    function DeleteCategory (catId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+            data: { CatID: catId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+        };
+</script>

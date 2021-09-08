@@ -1,0 +1,144 @@
+﻿@model HotelAbshar.Domain.Entities.Order_Cart.Order
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<HotelAbshar.Domain.Entities.Order_Cart.OrderDetail> OrderDetails = ViewBag.OrderDetails;
+}
+@inject HotelAbshar.Application.Interfaces.IProductService _productService
+<link rel="stylesheet" href="~/SiteTemplate/css/SoppingCart.css" />
+<div class="wrap cf" style="background-color:white">
+    <h1 class="projTitle">Responsive Table<span>-Less</span> سبد خرید</h1>
+    <div class="heading cf">
+        <h1>سبد خرید من</h1>
+        <a href="#finallyOrder" class="continue">نهایی کردن خرید</a>
+    </div>
+    <div class="cart">
+        <!--    <ul class="tableHead">
+              <li class="prodHeader">Product</li>
+              <li>Quantity</li>
+              <li>Total</li>
+               <li>Remove</li>
+            </ul>-->
+        <ul class="cartWrap">
+
+
+            @foreach (var item in OrderDetails)
+            {
+
+                @if (item.Count > 0)
+                {
+                    var product = _productService.GetProductByID(item.ProductID);
+
+                    <li class="items even">
+                        <div class="infoWrap">
+                            <div class="cartSection info">
+
+                                <img src="~/Products/ThumbImages/@_productService.GetFirstImageByPrductID(product.ProductID)" alt="" class="itemImg" />
+
+                                <h3>@product.Name</h3>
+
+                                <p> <a onclick="AddToCart(@item.ProductID)" class="btn btn-success">+</a> <a onclick="MinusFromCart(@item.ProductID)" class="btn btn-danger">-</a> @item.Count</p>
+
+                                @*<p class="stockStatus"> In Stock</p>*@
+
+                            </div>
+
+
+                            <div class="prodTotal cartSection">
+                                <p>@item.Price.ToString("n0") تومان </p>
+                            </div>
+
+                            <div class="cartSection removeWrap">
+                                <a href="#" class="remove">x</a>
+                            </div>
+                        </div>
+
+                    </li>
+                }
+
+            }
+
+            <!--<li class="items even">Item 2</li>-->
+
+        </ul>
+    </div>
+    <form asp-action="AddDiscount">
+        <div class="promoCode">
+            <label for="code">آیا کد تخفیفی داید؟</label><input type="text" name="code" placholder=" کد را وارد کنید" />
+            <input type="submit" value="ثبت کد" class="btn btn-outline-primary"/>
+        </div>
+    </form>
+
+    @{
+        var tax = Model.SumAmount * 0.9;
+        var totalAdmount = Model.SumAmount + 25000;
+    }
+    <div class="subtotal cf">
+        <ul>
+            <li class="totalRow"><span class="label" style="color:black">مجموع قیمت کالا ها</span><span class="value">@Model.SumAmount.ToString("n0") تومان</span></li>
+
+            <li class="totalRow"><span class="label" style="color:black">هزینه ارسال</span><span class="value">25,000 تومان</span></li>
+
+            <li id="finallyOrder" class="totalRow final"><span class="label" style="color:black">Total</span><span class="value">@totalAdmount.ToString("n0")</span></li>
+            @if (ViewBag.UserWallet >= totalAdmount)
+            {
+                <li class="totalRow"><a href="/FinallyOrder/@Model.OrderID" class="btn btn-primary">کامل کردن خرید</a></li>
+            }
+            else
+            {
+                <li class="totalRow"><div class="alert alert-warning">موجودی کیف پول شما کافی نیست برای خرید کیف پول خود را شارژ کنید<p></p><a href="/UserPanel/Wallet">شارژ کیف پول</a></div></li>
+            }
+
+
+        </ul>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/SiteTemplate/js/Shopping Cart/ShoppingCart.js"></script>
+}
+
+
+<script type="text/javascript">
+   function AddToCart (productId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOneProductToOrder")",
+            data: { id: productId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+    };
+      function MinusFromCart (productId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("MinusFromOrder")",
+            data: { id: productId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+        };
+
+
+</script>

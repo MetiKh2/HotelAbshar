@@ -1,0 +1,160 @@
+﻿@model Tuple<List<HotelAbshar.Domain.Entities.Hotels.HotelRoom>, int>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int pageId = ViewBag.pageId;
+}
+
+<section class="basic-select">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-info">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <form asp-action="Index" class="form">
+                            <input type="hidden" value="@ViewBag.hotelId" name="hotelId" id="hotelId"/>
+                            <div class="form-body">
+                                <div class="row">
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select asp-items="ViewBag.OrderList as SelectList" name="order" class="custom-select d-block w-100" id="order">
+                                            </select>
+                                        </fieldset>
+                                    </div>
+
+
+
+
+                                    <fieldset class="position-relative has-icon-right mb-0">
+                                        <input type="text" class="form-control form-control-lg input-lg" id="filter" name="filter" value="@ViewBag.filter" placeholder="نام اتاق ">
+                                        <div class="form-control-position">
+                                            <i class="ft-mic font-medium-4"></i>
+                                        </div>
+                                    </fieldset>
+
+                                    <br />
+                                    <input style="margin-top:55px;" type="submit" class="btn btn-outline-primary" value="بگرد">
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">اتاق ها  </h4>
+                    </div>
+                    <a class="btn btn-outline-success" href="/admin/hotelRooms/add/@ViewBag.hotelId">افزودن اتاق </a>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+                                    <th>تصویر </th>
+                                    <th>نام اتاق</th>
+                                    <th>ظرفیت</th>
+                                    <th>قیمت</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+                                        <td><img src="~/Hotels/Room/ThumbImages/@item.ImageSrc" /></td>
+                                        <td>@item.HotelRoomTitle</td>
+                                        <td>
+                                            @item.Capacity
+                                        </td>
+
+
+
+                                        <td>@item.PriceForOneNight.ToString("n0")</td>
+                                        <td>
+                                            <a class="success p-0" href="/Admin/HotelRooms/Edit/@item.HotelRoomID" data-original-title="" title="">
+                                                <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                            </a>
+                                            <a class="info p-0" data-original-title="" title="">
+                                                <i class="fa fa-check font-medium-3 mr-2"></i>
+                                            </a>
+                                            <a class="danger p-0" data-original-title="" title="" onclick="DeleteRoom(@item.HotelRoomID)">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><nav aria-label="Page navigation mb-3">
+    <ul class="pagination justify-content-center">
+        @*<li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item active"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>*@
+        @for (int i = 1; i <= Model.Item2 + 1; i++)
+        {
+            <li class="page-item @((i==pageId?"Active":""))"><a class="page-link" onclick="ChengeRoomsPage(@i)">@i</a></li>
+        }
+    </ul>
+</nav>
+</section>
+@section Scripts{
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        function DeleteRoom(hotelroomId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+            data: { HotelRoomID: hotelroomId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+        };
+
+        function ChengeRoomsPage(pageId) {
+            var hotelId = document.getElementById('hotelId').value;
+            var order = document.getElementById('order').value;
+            var filter = document.getElementById('filter').value;
+          
+
+
+
+            location.replace("/Admin/Hotelrooms/Index?filter=" + filter + "&pageId=" + pageId + "&hotelId=" + hotelId + "&order="+order);
+        }
+    </script>
+}

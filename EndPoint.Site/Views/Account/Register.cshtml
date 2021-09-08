@@ -1,0 +1,47 @@
+﻿@model HotelAbshar.Application.DTOs.UserViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "ثبت نام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--
+Design register pure CSS
+Developed by mrjopino
+-->
+<p style="color:white" class="texto">ثبت نام کنید</p>
+<div class="Registro" >
+    <form id="formRegister" asp-action="Register" method="post">
+
+        <span class="fontawesome-user"></span><input type="text" asp-for="FullName" id="fullName" placeholder="نام و نام خانوادگی" autocomplete="off">
+        <span class="fontawesome-envelope-alt"></span><input type="text" asp-for="UserName" id="userName" placeholder="نام کاربری" autocomplete="off">
+        <span class="fontawesome-envelope-alt"></span><input type="text" id="email" asp-for="Email" placeholder="ایمیل" autocomplete="off">
+        <span class="fontawesome-lock"></span><input type="password" name="password" id="password" asp-for="Password" placeholder="رمز عبور" autocomplete="off">
+        <span class="fontawesome-lock"></span><input type="password" name="Repassword" id="rePassword" asp-for="RePassword" placeholder="تکرار رمز عبور" autocomplete="off">
+        @if (ViewBag.WrongRePassword == true)
+        {
+            <div class="alert alert-danger">تکرار رمز عبور اشتباه است</div>
+        }
+        @if (ViewBag.ExistUserName == true)
+        {
+            <div class="alert alert-danger">نام کاربری توسط شخص دیگری وارد شده است</div>
+        }
+        @if (ViewBag.ExistUEmail == true)
+        {
+            <div class="alert alert-danger">ایمیل در سایت موجود است</div>
+        }
+        @if (ViewBag.NoIsValid == true)
+        {
+            <div class="alert alert-danger">اطلاعات به درستی وارد نشده اند</div>
+        }
+
+        <input type="submit" value="ثبت نام در سایت" title="ثبت نام در سایت">
+    </form>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+ 
+
+
+}

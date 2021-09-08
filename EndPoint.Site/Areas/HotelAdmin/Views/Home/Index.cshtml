@@ -1,0 +1,161 @@
+﻿@model HotelAbshar.Application.DTOs.HotelAdminViewModels.HotelAdminViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/HotelAdmin/Views/Shared/_AdminHotelLayout.cshtml";
+
+}
+@using HotelAbshar.Common.Convertors
+@inject HotelAbshar.Application.Interfaces.IPermissionService _permissionService
+@*<h1>HotelAdmin</h1>
+    @if (_permissionService.CheckPermission(User.Identity.Name, 15))
+    {
+        <h2>رییس</h2>
+
+    }@if (_permissionService.CheckPermission(User.Identity.Name, 16))
+    {
+        <h2>کارمند</h2>
+
+    }*@
+
+
+
+<h1 class="text text-success">@Model.Hotel.HotelName </h1>
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">  اتاق ها</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+
+                                    <th>تصویر اتاق</th>
+                                    <th>نام اتاق</th>
+                                    <th>شرح </th>
+                                    <th>ظرفیت</th>
+                                    <th>قیمت</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.HotelRoom)
+                                {
+                                    <tr>
+
+                                        <td><img src="~/Hotels/Room/ThumbImages/@item.ImageSrc" /></td>
+                                        <td>@item.HotelRoomTitle</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.Capacity</td>
+                                        <td>@item.PriceForOneNight.ToString("n0")</td>
+                                        <td>
+
+                                            <a class="info p-0" data-original-title="" title="" href="/HotelAdmin/Home/RoomReserves/@item.HotelRoomID">
+                                                <i class="fa fa-check font-medium-3 mr-2"></i>رزرو ها
+                                            </a>
+
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@if (_permissionService.CheckPermission(User.Identity.Name, 15))
+{
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">  کارمندان </h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+
+
+                                    <th>نام و نام خانوادگی</th>
+                                    <th>نام کاربری در سایت </th>
+                                    <th>ایمیل</th>
+                                    <th>تاریخ ثبت نام در سایت</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.Employees)
+                                {
+                                    <tr>
+
+
+                                        <td>@item.FullName</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.RegisterDate.ToShamsi()</td>
+                                        <td>
+
+                                          
+                                            <a class="danger p-0" data-original-title="" title="" href="/HotelAdmin/Home/DeleteUser/@item.UserID?hotelId=@Model.Hotel.HotelID">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+}
+
+
+
+<script type="text/javascript">
+    function DeleteUser (userId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteUser")",
+            data: { UserID: userId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+    };
+</script>

@@ -1,0 +1,147 @@
+﻿@model Tuple<List<HotelAbshar.Domain.Entities.User.User>, int>
+@{
+    ViewData["Title"] = "کاربران";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int pageId = ViewBag.pageId;
+    string filterFullName = ViewBag.filterFullName;
+    string filterUserName = ViewBag.filterUserName;
+    string filterEmail = ViewBag.filterEmail;
+}
+@using HotelAbshar.Common.Convertors
+
+
+<div class="card-header">
+    <h4 class="card-title">جستجو</h4>
+</div>
+<div class="card-block pb-0">
+    <form asp-action="Index">
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="text" class="form-control form-control-lg input-lg" id="filterUserName" name="filterUserName" value="@filterUserName" placeholder="نام کاربری">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="text" class="form-control form-control-lg input-lg" id="filterFullName" name="filterFullName" value="@filterFullName" placeholder="نام و نام خانوادگی">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="text" class="form-control form-control-lg input-lg" id="filterEmail" name="filterEmail" value="@filterEmail" placeholder="ایمیل">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-right mb-0">
+            <input type="submit" style="background-color:dodgerblue" class="form-control form-control-lg input-lg" value="بگرد">
+            <div class="form-control-position">
+                <i class="ft-mic font-medium-4"></i>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<section id="hoverable-rows">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-warning">
+                        <h4 class="card-title">کاربران</h4>
+                    </div>
+                    <a class="btn btn-success" href="/Admin/Users/Add">افزودن کاربر</a>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+
+                                    <th>نام و نام خانوادگی</th>
+                                    <th>نام کاربری</th>
+                                    <th>ایمیل</th>
+                                    <th>تاریخ ثبت نام</th>
+                                    <th>فعال</th>
+                                    <th>دستورات</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.UserID</th>
+                                        <td>@item.FullName</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.RegisterDate.ToShamsi()</td>
+                                        <td>@item.IsActive</td>
+                                        <td colspan="3">
+                                            <a class="btn btn-warning" href="/Admin/Users/Edit/@item.UserID">ویرایش</a>
+                                            <a class="btn btn-danger" onclick="DeleteUser(@item.UserID)">حذف</a>
+                                            <a class="btn btn-primary" href="/Admin/Users/UserHotel/@item.UserID">هتل</a>
+                                            <a class="btn btn-cyan" href="/Admin/Users/addUserHotel/@item.UserID">افزودن هتل</a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div> 
+            <nav aria-label="Page navigation mb-3">
+                <ul class="pagination justify-content-center">
+                    @*<li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>*@
+                    @for (int i = 1; i <= Model.Item2 + 1; i++)
+                    {
+                        <li class="page-item @((i==pageId?"Active":""))"><a class="page-link" onclick="ChengeUsersPage(@i)">@i</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+   function DeleteUser (userId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+            data: { UserID: userId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+        };
+
+        function ChengeUsersPage(pageId) {
+            var userNameFilter = document.getElementById('filterUserName').value;
+            var fullNameFilter = document.getElementById('filterFullName').value;
+            var emailFilter = document.getElementById('filterEmail').value;
+
+           
+            location.replace("/Admin/Users/Index?filterUserName=" + userNameFilter + "&filterFullName=" + fullNameFilter + "&filterEmail=" + emailFilter
+                + "&pageId=" + pageId);
+        }
+    </script>
+}

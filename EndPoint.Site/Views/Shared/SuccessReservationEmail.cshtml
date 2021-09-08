@@ -1,0 +1,9 @@
+﻿@model HotelAbshar.Application.DTOs.ReserveViewModel.SuccessReserveViewModel
+<div style="direction: rtl; padding: 20px">
+   
+    <p>@Model.UserName اتاق @Model.RoomName را از تاریخ @Model.StartDate تا تاریخ @Model.EndDate رزرو کرده است  </p>
+    <p>ایمیل رزرو کننده : @Model.EmailReserve  </p>
+    <p>
+        <a href="https://localhost:44358/HotelAdmin/Home/RoomReserves/@Model.RoomID">جزییات بیشتر</a>
+    </p>
+</div>

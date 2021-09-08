@@ -1,0 +1,99 @@
+﻿@model List<HotelAbshar.Domain.Entities.Reservation.Reservation>
+@{
+    ViewData["Title"] = "RoomReserves";
+    Layout = "~/Areas/HotelAdmin/Views/Shared/_AdminHotelLayout.cshtml";
+    HotelAbshar.Domain.Entities.Hotels.HotelRoom Room = ViewBag.Room;
+    int reservationDays, sumAmount;
+}
+@using HotelAbshar.Common.Convertors
+@inject HotelAbshar.Application.Interfaces.IUserService _userService
+<h1>@Room.HotelRoomTitle</h1>
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">  رزرو ها</h4>
+                        <a class="btn btn-primary" href="/HotelAdmin/Home/Index/@Room.HotelID">صفحه اصلی</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+
+                                    <th>نام کاربری رزرو کننده </th>
+                                    <th>نام و نام خانوادگی رزرو کننده</th>
+                                    <th>ایمیل  </th>
+                                    <th>موبایل</th>
+                                    <th>تاریخ ورود</th>
+                                    <th>تاریخ خروج</th>
+                                    <th> مبلغ کل</th>
+                                    <th>اقدامات </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>@_userService.GetFullNameByUserID(item.UserID.Value)</td>
+                                        <td>@_userService.GetUserNameByUserID(item.UserID.Value)</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.MobilePhone</td>
+                                        <td>@item.StartDate.ToShamsi()</td>
+                                        <td>@item.EndDate.ToShamsi()</td>
+                                        @{
+                                            reservationDays = (item.EndDate - item.StartDate).Days;
+                                            sumAmount = reservationDays * Room.PriceForOneNight;
+
+                                        }
+                                        <td>@sumAmount.ToString("n0")</td>
+                                        <td>
+                                            <a class="success p-0" data-original-title="" title="" href="/HotelAdmin/Home/EditReserve/@item.ReservationID?roomId=@item.HotelRoomID">
+                                                <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                            </a>
+                                            <a class="info p-0" data-original-title="" title="مسافران" href="/HotelAdmin/Home/ReserveTravelers/@item.ReservationID">
+                                                <i  class="fa fa-check font-medium-3 mr-2"></i>
+                                            </a>
+                                            <a class="danger p-0" data-original-title="" title="" onclick="DeleteReserve(@item.ReservationID)">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+   function DeleteReserve (reserveId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteReserve")",
+            data: { ReserveID: reserveId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+    };
+</script>

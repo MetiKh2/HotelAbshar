@@ -1,0 +1,261 @@
+﻿@model HotelAbshar.Domain.Entities.Reservation.Reservation
+@{
+    ViewData["Title"] = "AddReserve";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    HotelAbshar.Domain.Entities.Hotels.Hotel Hotel = ViewBag.Hotel;
+    HotelAbshar.Domain.Entities.Hotels.HotelRoom Room = ViewBag.Room;
+    int sumAmount = ViewBag.sumAmount;
+    var amountPay = ViewBag.amountPay;
+    int userWallet = ViewBag.userWallet;
+    DateTime stDate = ViewBag.stDate;
+    DateTime edDate = ViewBag.edDate;
+    ResultUseDiscount? useDiscountResult = ViewBag.useDiscountResult;
+}
+@using HotelAbshar.Application.Interfaces
+@using HotelAbshar.Common.Convertors
+
+
+<div class="theme-page-section theme-page-section-lg" style="background-color:white">
+    <div class="container">
+        <div class="row row-col-static row-col-mob-gap" id="sticky-parent" data-gutter="60">
+            <div class="col-md-8 ">
+                <div class="theme-payment-page-sections">
+                    <div class="theme-payment-page-sections-item">
+                        <div class="theme-search-results-item theme-payment-page-item-thumb">
+                            <h3 class="theme-search-results-item-title">@Hotel.HotelName</h3>
+                            <span>@Hotel.HotelAddress   </span>
+                            <div class="row" data-gutter="20">
+                                <div class="col-md-9 ">
+                                    <div class="row" data-gutter="20">
+                                        <div class="col-md-5 ">
+                                            <ul class="theme-search-results-item-hotel-room-features">
+                                                <li>
+                                                    <p>ظرفیت</p>
+                                                    @for (int i = 0; i < Room.Capacity; i++)
+                                                    {
+                                                        <i class="fa fa-user"></i>
+
+                                                    }
+                                                </li>
+                                                <li>
+                                                    <p>درجه هتل</p>
+                                                    @for (int i = 0; i < Hotel.StarCount; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+
+                                                    }
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <div class="theme-search-results-item-img-wrap">
+                                        <img class="theme-search-results-item-img" src="~/Hotels/Room/ThumbImages/@Room.ImageSrc" alt="Image Alternative text" title="Image Title">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form asp-action="AddReserve" method="post">
+
+                        <input type="hidden" asp-for="StartDate" value="@ViewBag.stDate" />
+                        <input type="hidden" asp-for="EndDate" value="@ViewBag.edDate" />
+                        <input type="hidden" asp-for="HotelID" value="@Hotel.HotelID" />
+                        <input type="hidden" asp-for="HotelRoomID" value="@Room.HotelRoomID" />
+                        <input type="hidden" name="discountCode" value="@ViewBag.discountCode" />
+                        <input type="hidden" name="reservationId" value="@ViewBag.reservationId" />
+                        @if (ViewBag.walletDown == true)
+                        {
+
+                        }
+                        else
+                        {
+                            <input type="hidden" name="amountPay" value="@amountPay" />
+                        }
+                        @for (int i = 0; i < Room.Capacity; i++)
+                        {
+
+                            <div class="theme-payment-page-sections-item">
+                                <h3 class="theme-payment-page-sections-item-title">اطلاعات مسافر</h3>
+                                <div class="theme-payment-page-form">
+                                    <div class="row row-col-gap" data-gutter="20">
+                                        <div class="col-md-6 ">
+                                            <div class="theme-payment-page-form-item form-group">
+                                                <i class="fa fa-angle-down"></i>
+                                                <select name="TravelersSex" class="form-control">
+                                                    <option value="True">مرد</option>
+                                                    <option value="False">زن</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="theme-payment-page-form-item form-group">
+                                                <input class="form-control" name="TravelersName" type="text" placeholder="نام">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="theme-payment-page-form-item form-group">
+                                                <input class="form-control" name="TravelersFamily" type="text" placeholder="نام خانوادگی">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="theme-payment-page-form-item form-group">
+                                                <input class="form-control" type="text" name="TravelerNationalID" placeholder="کد ملی">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                        <div class="theme-payment-page-sections-item">
+                            <h3 class="theme-payment-page-sections-item-title">اطلاعات تماس مسافر</h3>
+                            <div class="theme-payment-page-form _mb-20">
+                                <div class="row row-col-gap" data-gutter="20">
+                                    <div class="col-md-6 ">
+                                        <div class="theme-payment-page-form-item form-group">
+                                            <input class="form-control" type="text" name="email" placeholder="ایمیل">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div class="theme-payment-page-form-item form-group">
+                                            <input class="form-control" type="text" name="mobile" placeholder="موبایل (09121234567)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="theme-payment-page-sections-item">
+                            <div class="theme-payment-page-booking">
+                                <div class="theme-payment-page-booking-header _mb-40">
+                                    <h3 class="theme-payment-page-booking-title">مبلغ قابل پرداخت :</h3>
+                                    <p class="theme-payment-page-booking-price text-success">@amountPay.ToString("n0")  <span class="_fs-sm">ریال</span></p>
+                                </div>
+                                @* <a class="btn _tt-uc btn-primary-inverse btn-lg btn-block" href="#">ادامه‌ی فرآیند خرید</a>*@
+                                @if (ViewBag.haveNULL == true)
+                                {
+                                    <div class="alert alert-warning">
+                                        لطفا مشخصات مسافران و رزرو کننده را کامل وارد کنید
+                                    </div>
+                                }
+
+                                @if (ViewBag.walletDown == true)
+                                {
+                                    <div class="alert alert-danger">
+                                        <a href="/UserPanel/Home/Wallet">پنل کاربری</a>کیف پول شما به مقدار کافی موجودی ندارد , در پنل کاربری اقدام به شارژ کیف پپول خود کنید
+                                    </div>
+                                    <input disabled type="submit" class="btn _tt-uc btn-primary-inverse btn-lg btn-block" value="ادامه فرایند خرید" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="btn _tt-uc btn-primary-inverse btn-lg btn-block" value="ادامه فرایند خرید" />
+                                }
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class="sticky-col" style="">
+                    <form asp-action="AddReserve" method="get">
+                        <input type="hidden" name="stDate" value="@stDate.ToShamsi().ToString()" />
+                        <input type="hidden" name="edDate" value="@edDate.ToShamsi().ToString()" />
+
+                        <div class="theme-sidebar-section _mb-10">
+                            <h5 class="theme-sidebar-section-title">جزییات رزرو</h5>
+                            <ul class="theme-sidebar-section-summary-list">
+                                <li> به مدت :  <span>@ViewBag.reservationDays شب</span></li>
+                                <li> <i class="fa fa-male"></i>  2 بزرگسال 0 کودک </li>
+                                <li> <i class="fa fa-calendar"></i>  تاریخ ورود:@stDate.ToShamsi()</li>
+                                <li> <i class="fa fa-calendar"></i>  تاریخ خروج: @edDate.ToShamsi()</li>
+
+
+                                @if (useDiscountResult != null)
+                                {
+                                    switch (useDiscountResult)
+                                    {
+                                        case ResultUseDiscount.successs:
+                                            {
+                                                <li> <p class="text text-success">کد با موفقیت اعمال شد </p></li>
+                                                break;
+                                            }
+                                        case ResultUseDiscount.notFound:
+                                            {
+                                                <li> <input type="text" name="discountCode" placeholder="کد تخفیف ..." /></li>
+                                                <li> <p class="text text-danger">کد یافت نشد </p></li>
+                                                <li> <input type="submit" value="اعمال کد تخفیف" class="btn btn-primary" /></li>
+                                                break;
+                                            }
+                                        case ResultUseDiscount.expierDate:
+                                            {
+                                                <li> <input type="text" name="discountCode" placeholder="کد تخفیف ..." /></li>
+                                                <li> <p class="text text-danger"> کد منقضی شده است</p></li>
+                                                <li> <input type="submit" value="اعمال کد تخفیف" class="btn btn-primary" /></li>
+                                                break;
+                                            }
+                                        case ResultUseDiscount.endUseCount:
+                                            {
+                                                <li> <input type="text" name="discountCode" placeholder="کد تخفیف ..." /></li>
+                                                <li> <p class="text text-danger"> کد به اتمام رسیده است</p></li>
+                                                <li> <input type="submit" value="اعمال کد تخفیف" class="btn btn-primary" /></li>
+                                                break;
+                                            }
+                                        case ResultUseDiscount.wrongHotel:
+                                            {
+                                                <li> <input type="text" name="discountCode" placeholder="کد تخفیف ..." /></li>
+                                                <li> <p class="text text-danger">کد یافت نشد </p></li>
+                                                <li> <input type="submit" value="اعمال کد تخفیف" class="btn btn-primary" /></li>
+                                                break;
+                                            }
+                                        case ResultUseDiscount.userUsed:
+                                            {
+                                                <li> <input type="text" name="discountCode" placeholder="کد تخفیف ..." /></li>
+                                                <li> <p class="text text-primary">کد قبلا توسط شما استفاده شده است </p></li>
+                                                <li> <input type="submit" value="اعمال کد تخفیف" class="btn btn-primary" /></li>
+                                                break;
+                                            }
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                    <li> <input type="text" name="discountCode" placeholder="کد تخفیف ..." /></li>
+                                   <li>توجه داشته باشید کد را در اخرین لحظه قبل از نهایی کردن رزرو وارد و ثبت کنید</li>
+                                    <li> <input type="submit" value="اعمال کد تخفیف" class="btn btn-primary" /></li>
+                                }
+
+                            </ul>
+                        </div>
+                    </form>
+                    <div class="theme-sidebar-section _mb-10">
+                        <div class="theme-sidebar-section-charges">
+                            <ul class="theme-sidebar-section-charges-list">
+                                <li class="theme-sidebar-section-charges-item">
+                                    <h5 class="theme-sidebar-section-charges-item-title">قیمت به ازاری هر بزرگسال</h5>
+                                    <p class="theme-sidebar-section-charges-item-price">330,000 </p>
+                                </li>
+                                <li class="theme-sidebar-section-charges-item">
+                                    <h5 class="theme-sidebar-section-charges-item-title">قیمت  به ازای 1 شب</h5>
+                                    <p class="theme-sidebar-section-charges-item-price">@Room.PriceForOneNight.ToString("n0")</p>
+                                </li>
+                                <li class="theme-sidebar-section-charges-item">
+                                    <h5 class="theme-sidebar-section-charges-item-title">وعده غذایی</h5>
+                                    <p class="theme-sidebar-section-charges-item-price">110,000 </p>
+                                </li>
+                            </ul>
+                            <p class="theme-sidebar-section-charges-total">
+                                قیمت کل :
+                                <span>@sumAmount.ToString("n0")</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

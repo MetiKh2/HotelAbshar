@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "HotelAbshar.Infrastructure/1.0.0": {
+        "runtime": {
+          "HotelAbshar.Infrastructure.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "HotelAbshar.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,48 @@
+﻿@model List<HotelAbshar.Domain.Entities.Reservation.travelerReservation>
+@{
+    ViewData["Title"] = "Traveler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2-5">
+                <partial name="_SideBar" />
+            </div>
+            <div class="col-md-9-5 ">
+                <h3 class="theme-account-page-title">مسافران</h3>
+                <div class="row row-col-gap" data-gutter="20">
+                    <div class="theme-account-history">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>شماره ملی</th>
+                                    <th>نام</th>
+                                    <th>نام و نام خانوادگی</th>
+                                    <th>جنسیت</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.NationalID</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Family</td>
+                                        <td>@((item.Sex)?"آقا":"خانم")</td>
+
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

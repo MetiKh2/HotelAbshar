@@ -1,0 +1,17 @@
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Application.deps.json
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Application.dll
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\ref\HotelAbshar.Application.dll
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Application.pdb
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Common.dll
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Domain.dll
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Common.pdb
+D:\Abshar\HotelAbshar\HotelAbshar.Application\bin\Debug\net5.0\HotelAbshar.Domain.pdb
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.csproj.AssemblyReference.cache
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.AssemblyInfoInputs.cache
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.AssemblyInfo.cs
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.csproj.CoreCompileInputs.cache
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.csproj.CopyComplete
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.dll
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\ref\HotelAbshar.Application.dll
+D:\Abshar\HotelAbshar\HotelAbshar.Application\obj\Debug\net5.0\HotelAbshar.Application.pdb

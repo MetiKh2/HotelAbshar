@@ -1,0 +1,88 @@
+﻿@model HotelAbshar.Domain.Entities.User.Role
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<HotelAbshar.Domain.Entities.Permission.Permission> permissions = ViewBag.permissions;
+}
+
+<section id="basic-input-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">اضافه کردن نقش</h4>
+                    </div>
+                </div>
+                <form id="formAddRole" asp-action="Add" method="post">
+                    <div class="card-body">
+                        <div class="card-block">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"></span>
+                                </div>
+                                <input type="text" id="roleTitle" class="form-control" asp-for="RoleTitle" placeholder="نام نقش" aria-label="Username" aria-describedby="basic-addon1">
+
+                            </div>
+                            <br>   @if (ViewBag.ExistRoleTitle == true)
+                            {
+                                <p class="text text-danger">نام نقش تکراری می باشد</p>
+                            }@if (ViewBag.NoIsValid == true)
+                            {
+                                <div class="alert alert-danger">اطلاعات صحیح یا کامل نیست</div>
+                            }
+                            <input type="submit" value="اضافه کن" class="btn btn-success" />
+                        </div>
+                    </div>
+                    <h3>دسترسی ها</h3>
+                    <ul>
+                        @foreach (var item in permissions.Where(p => p.ParentID == null))
+                        {
+                            <li>
+                                <input type="checkbox" name="selectedPermissions" value="@item.PermissionID" /> @item.PermissionTitle
+
+                                <ul>
+                                    @foreach (var sub in permissions.Where(p => p.ParentID == item.PermissionID))
+                                    {
+                                        <li>
+                                            <input type="checkbox" name="selectedPermissions" value="@sub.PermissionID" /> @sub.PermissionTitle
+                                            <ul>
+                                                @foreach (var sub2 in permissions.Where(p => p.ParentID == sub.PermissionID))
+                                                {
+                                                    <li>
+                                                        <input type="checkbox" name="selectedPermissions" value="@sub2.PermissionID" />@sub2.PermissionTitle
+                                                    </li>
+                                                }
+
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+
+                            </li>
+                        }
+                    </ul>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    const formAddRole = document.querySelector('#formAddRole');
+    formAddRole.addEventListener('submit', event => {
+        let roleTitle = document.getElementById('roleTitle').value;
+
+
+
+        if (roleTitle == "") {
+            alert("لطفا تمامی موارد را وارد کنید");
+            event.preventDefault();
+        }
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

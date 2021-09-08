@@ -1,0 +1,219 @@
+﻿@model Tuple<List<HotelAbshar.Domain.Entities.News.News>,int>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int pageId = ViewBag.pageId;
+    string FilterNewsTitle = ViewBag.FilterNewsTitle;
+    string FilterAuthorTitle = ViewBag.FilterAuthorTitle;
+    string order = ViewBag.order;
+    string searchItem = ViewBag.searchItem;
+ 
+}
+@using HotelAbshar.Common.Convertors
+<section class="basic-select">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-info">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <form asp-action="Index" class="form">
+                            <div class="form-body">
+                                <div class="row">
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select asp-items="ViewBag.OrderList as SelectList" name="order" class="custom-select d-block w-100" id="order">
+                                            </select>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select name="searchItem" asp-items="@ViewBag.SearchItems as SelectList" class="custom-select d-block w-100" id="searchItem">
+                                             
+
+                                            </select>
+                                        </fieldset>
+                                    </div>
+
+
+                                    <fieldset class="position-relative has-icon-right mb-0">
+                                        <input type="text" class="form-control form-control-lg input-lg" id="filterNewsTitle" name="filterNewsTitle" value="@FilterNewsTitle"  placeholder="نام خبر ">
+                                        <div class="form-control-position">
+                                            <i class="ft-mic font-medium-4"></i>
+                                        </div>
+                                    </fieldset>   
+                                    <fieldset class="position-relative has-icon-right mb-0">
+                                        <input type="text" class="form-control form-control-lg input-lg" id="filterAuthorName" name="filterAuthorName" value="@FilterAuthorTitle" placeholder="نام نویسنده ">
+                                        <div class="form-control-position">
+                                            <i class="ft-mic font-medium-4"></i>
+                                        </div>
+                                    </fieldset>
+
+                                    <br />
+                                    <input style="margin-top:55px;" type="submit" class="btn btn-outline-primary" value="بگرد">
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">اخبار</h4>
+                        <a href="/Admin/News/Add" class="btn btn-success">افزودن خبر</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+                                    <th>تصویر</th>
+                                    <th>نام خبر</th>
+                                    <th> نمایش داده؟</th>
+                                    <th>بازدید</th>
+                                    <th>تاریخ</th>
+                                    <th>منتشر</th>
+                                    
+
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <img src="~/News/ThumbImages/@item.ImageSrc" />
+                                        </td>
+                                        <td>@item.Title</td>
+                                        <td  @((item.DisPlayed) ? " class=" + "text text-success" : " class=" + "text text-danger")>@((item.DisPlayed)?" می شود":" نمی شود")</td>
+                                        <td>
+                                           @item.ViewCount
+                                        </td>
+                                        <td>@item.CreateDate.ToShamsi()</td>
+                                        <td>@item.Author</td>
+                                      
+                                        <td>
+                                            <a class="success p-0" data-original-title="" title="" href="/Admin/News/Edit/@item.NewsID">
+                                                <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                            </a>
+                                            @if (item.DisPlayed)
+                                            {
+                                                <a class="info p-0" data-original-title="" onclick="ChangeStatus(@item.NewsID)" title="نمایش در سایت">
+                                                    <i class="fa fa-check font-medium-3 mr-2"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="danger p-0" data-original-title="" onclick="ChangeStatus(@item.NewsID)" title="نمایش در سایت">
+                                                    <i class="fa fa-close font-medium-3 mr-2"></i>
+                                                </a>
+                                            }
+                                            <a onclick="DeleteNews(@item.NewsID)" class="danger p-0" data-original-title="" title="">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation mb-3">
+        <ul class="pagination justify-content-center">
+            @*<li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item active"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>*@
+            @for (int i = 1; i <= Model.Item2 + 1; i++)
+            {
+                <li class="page-item @((i==pageId?"Active":""))"><a class="page-link" onclick="ChengeNewsPage(@i)">@i</a></li>
+            }
+        </ul>
+    </nav>
+</section>
+<script type="text/javascript">
+    function ChengeNewsPage(pageId) {
+        var filterNewsTitle = document.getElementById('filterNewsTitle').value;
+        var filterAuthorName = document.getElementById('filterAuthorName').value;
+        var order = document.getElementById('order').value;
+        var searchItem = document.getElementById('searchItem').value;
+
+
+
+        location.replace("/Admin/News/Index?filterNewsTitle=" + filterNewsTitle + "&filterAuthorName=" + filterAuthorName + "&order=" + order + "&searchItem=" + searchItem + "&pageId=" + pageId);
+    }
+
+
+
+      function DeleteNews (newsId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+            data: { NewsID: newsId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+    };
+
+
+    function ChangeStatus (newsId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ChangeStatus")",
+            data: { NewsID: newsId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+        };
+</script>

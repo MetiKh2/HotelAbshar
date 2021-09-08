@@ -1,0 +1,95 @@
+﻿@model HotelAbshar.Domain.Entities.News.News
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="col-md-6">
+    <div class="card" style="height: 942px;">
+        <div class="card-header">
+            <div class="card-title-wrap bar-info">
+                <h4 class="card-title" id="basic-layout-round-controls"> افزودن خبر</h4>
+            </div>
+          <p></p>
+        </div>
+        <div class="card-body">
+            <div class="px-3">
+
+                <form id="formAddNews" class="form" asp-action="Add" enctype="multipart/form-data">
+                    <div class="form-body">
+
+                        <div class="form-group">
+                            <label for="complaintinput1">نام خبر</label>
+                            <input type="text" id="NewsTitle" class="form-control round" asp-for="Title">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="complaintinput2">نام منتشر</label>
+                            <input type="text" id="NewsAuthor" class="form-control round" asp-for="Author">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="complaintinput3"> شرح مختصر</label>
+
+                            <textarea id="NewsShortDescription" class="form-control round" asp-for="ShortDescription"></textarea>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="complaintinput4"> تصویر</label>
+                            <input type="file" id="Image" class="form-control" name="newImage">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="complaintinput5"> متن خبر</label>
+                            <textarea asp-for="Text" id="textNews" class="form-control round"></textarea>
+                        </div>
+                        @if (ViewBag.NoIsValid == true)
+                        {<div class="alert alert-danger">فقط منتشر می تواند خالی باشد</div>}
+
+
+                    </div>
+
+                    <div class="form-actions">
+
+                        <input type="submit" class="btn btn-success" value="ذخیره" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+<script>
+
+    CKEDITOR.replace('textNews', {
+        customConfig: '/js/CkEditor/NewText.js'
+        });
+
+</script>
+
+
+<script>
+    const formAddNews = document.querySelector('#formAddNews');
+    formAddNews.addEventListener('submit', event => {
+
+        let NewsTitle = document.getElementById('NewsTitle').value;
+        let NewsShortDescription = document.getElementById('NewsShortDescription').value;
+        let textNews = document.getElementById('textNews').value;
+        let Image = document.getElementById('Image').value;
+
+        if (NewsTitle == "" || NewsShortDescription == "" || textNews == "") {
+            alert("فقط منتشر میتواند خالی باشد");
+            event.preventDefault();
+        }
+        
+
+
+
+        // actual logic, e.g. validate the form
+        console.log('Form submission cancelled.');
+    });
+
+</script>

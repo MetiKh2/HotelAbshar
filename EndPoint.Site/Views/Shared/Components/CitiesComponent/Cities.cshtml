@@ -1,0 +1,25 @@
+﻿@model List<HotelAbshar.Domain.Entities.Hotels.HotelCity>
+@{
+    Layout = null;
+}
+
+<li class="dropdown">
+    <a class="dropdown-toggle" href="/Hotels" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> (رزرو هتل) شهر ها</a>
+    <div class="dropdown-menu">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="dropdown-meganav-list-items">
+                    <li><a href="/Hotels">همه هتل ها</a></li>
+
+                    @foreach (var item in Model)
+                    {
+                        <li>
+                            <a href="/Hotels/Index?cityID=@item.CityID">@item.CityTitle   </a>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,226 @@
+﻿@model Tuple<List<HotelAbshar.Domain.Entities.Product.Product>, int>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int pageId = ViewBag.pageId;
+}
+@inject HotelAbshar.Application.Interfaces.IProductService _productService
+<section class="basic-select">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-info">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <form asp-action="Index" class="form">
+                            <div class="form-body">
+                                <div class="row">
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select asp-items="ViewBag.OrderList as SelectList" name="order" class="custom-select d-block w-100" id="order">
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select asp-items="ViewBag.SearchItems as SelectList" name="searchItem" class="custom-select d-block w-100" id="searchItem">
+                                            </select>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select class="form-control" id="parentCategory" name="parentCategory" asp-items="ViewBag.parentCategoriesList as SelectList"></select>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12">
+                                        <fieldset class="form-group">
+
+                                            <select class="form-control" id="subCategory" name="subCategory" asp-items="ViewBag.subCategoriesList as SelectList"></select>
+
+
+                                        </fieldset>
+                                    </div>
+
+
+                                    <fieldset class="position-relative has-icon-right mb-0">
+                                        <input type="text" class="form-control form-control-lg input-lg" id="filterName" value="@ViewBag.filterName" name="filterName" placeholder="نام هتل ">
+                                        <div class="form-control-position">
+                                            <i class="ft-mic font-medium-4"></i>
+                                        </div>
+                                    </fieldset>
+
+                                    <br />
+                                    <input style="margin-top:55px;" type="submit" class="btn btn-outline-primary" value="بگرد">
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">کالا ها</h4>
+                        <a class="btn btn-success" href="/Admin/PRoducts/ADD">افزودن کالای جدید</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+
+                                    <th>تصویر</th>
+                                    <th>نام کالا</th>
+                                    <th> قیمت</th>
+                                    <th>موجودی</th>
+                                    <th>گروه</th>
+                                    <th>زیر گروه</th>
+                                    <th>برند</th>
+                                    <th>نمایش داده شود؟</th>
+
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach (var item in Model.Item1)
+                                {
+                                <tr>
+
+                                    <td>
+                                        <img src="~/Products/ThumbImages/@_productService.GetFirstImageByPrductID(item.ProductID)" />
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Price.ToString("n0")</td>
+                                    <td>
+                                        @item.Invertory
+                                    </td>
+                                    <td>@_productService.GetCategoryNameByCategoryID(item.ParentCategoryID)</td>
+                                    @if (item.SubCategoryID != null)
+                                    {
+                                        <td>@_productService.GetCategoryNameByCategoryID(item.SubCategoryID.Value)</td>
+
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+}
+
+                                    <td>@item.Brand</td>
+                                    <td>@item.DisPlayed</td>
+                                    <td>
+                                        <a class="success p-0" data-original-title="" title="" href="/Admin/Products/Edit/@item.ProductID">
+                                            <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a class="info p-0" data-original-title="" title="ویژگی ها" href="/Admin/Products/Features/@item.ProductID">
+                                            <i class="fa fa-check font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a onclick="DeleteProduct(@item.ProductID)" class="danger p-0" data-original-title="" title="">
+                                            <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                        </a>
+                                     
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation mb-3">
+        <ul class="pagination justify-content-center">
+            @*<li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item active"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>*@
+            @for (int i = 1; i <= Model.Item2 + 1; i++)
+            {
+                <li class="page-item @((i==pageId?" Active":""))"><a class="page-link" onclick="ChengeProductsPage(@i)">@i</a></li>
+            }
+        </ul>
+    </nav>
+</section>
+
+@section Scripts{
+    <script>
+        $("#parentCatdegory").change(function () {
+            $("#subCategory").empty();
+            $.getJSON("/admin/Products/GetSubGroupes/" + $("#parentCatdegory :selected").val(),
+                function (data) {
+
+                    $.each(data,
+                        function () {
+                            $("#subCategory").append('<option value=' + this.value + '>' + this.text + '</option>');
+
+                        });
+
+                });
+
+
+        });
+
+
+
+    </script>
+}
+<script>
+    function ChengeProductsPage(pageId) {
+        var filterName = document.getElementById('filterName').value;
+        var parentCategory = document.getElementById('parentCategory').value;
+        var subCategory = document.getElementById('subCategory').value;
+        var searchItem = document.getElementById('searchItem').value;
+        var order = document.getElementById('order').value;
+
+
+        location.replace("/Admin/Products/Index?filterName=" + filterName + "&pageId=" + pageId + "&order=" + order + "&searchItem=" + searchItem + "&parentCategory=" + parentCategory + "&subCategory=" + subCategory);
+    }
+
+
+
+    function DeleteProduct (productId) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+            data: { ProductID: productId },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        }).then(function (isConfirm) {
+            location.reload();
+        });
+    };
+
+</script>

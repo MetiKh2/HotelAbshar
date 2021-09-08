@@ -1,0 +1,19 @@
+﻿@model List<HotelAbshar.Domain.Entities.Product.Category>
+<li class="dropdown">
+    <a class="dropdown-toggle" href="/Products" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">(فروشگاه سایت) دسته بندی ها</a>
+    <div class="dropdown-menu">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="dropdown-meganav-list-items">
+                    <li><a href="/Products">همه محصولات</a></li>
+                    @foreach (var item in Model)
+                    {
+                        <li>
+                            <a href="/Products/Index?parentCategory=@item.CategoryID">@item.CategoryName </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</li>
