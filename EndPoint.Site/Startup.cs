@@ -33,7 +33,7 @@ namespace EndPoint.Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddWebMarkupMin(options=>b
+            //services.AddWebMarkupMin(options=>b121212
             //{
             //    options.AllowMinificationInDevelopmentEnvironment=true;
             //    options.AllowCompressionInDevelopmentEnvironment = true;
